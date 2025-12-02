@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { BellIcon, ChevronDownIcon } from '../icons';
 import logo from '../../assets/Nexus-logo.png';

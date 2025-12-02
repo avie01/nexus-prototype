@@ -4,7 +4,6 @@ import {
   ClipboardListIcon, 
   BuildingIcon, 
   UsersIcon, 
-  PenIcon,
   FormatEditIcon
 } from './icons';
 

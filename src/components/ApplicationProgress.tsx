@@ -4,7 +4,6 @@ import {
   ClipboardListIcon, 
   BuildingIcon, 
   UsersIcon, 
-  PenIcon,
   FormatEditIcon
 } from './icons';
 
@@ -30,7 +29,7 @@ export const ApplicationProgress: React.FC<ApplicationProgressProps> = ({ curren
           const IconComponent = step.icon;
           const isActive = step.id === currentStep;
           const isCompleted = step.id < currentStep;
-          const isUpcoming = step.id > currentStep;
+          // const isUpcoming = step.id > currentStep;
           
           return (
             <div key={step.id} className="flex items-start">

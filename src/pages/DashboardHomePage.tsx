@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GroupSecurityIcon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
 
@@ -577,7 +577,10 @@ const DashboardHomePage = () => {
                 ) : (
                   // Actual data rows
                   currentData.map((row, index) => (
-                    <tr key={index} className="border-b border-gray-100" style={{ '&:hover': { backgroundColor: '#E8E8E8' } }} onMouseEnter={(e) => e.target.closest('tr').style.backgroundColor = '#E8E8E8'} onMouseLeave={(e) => e.target.closest('tr').style.backgroundColor = 'transparent'}>
+                    <tr 
+                      key={index} 
+                      className="border-b border-gray-100 hover:bg-[#E8E8E8] transition-colors"
+                    >
                       <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.objectId}</td>
                       <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.parentId}</td>
                       <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.name}</td>

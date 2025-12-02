@@ -1,5 +1,5 @@
 import React from 'react';
-import { BuildingIcon, XIcon } from './icons';
+import { XIcon } from './icons';
 import buildingImg from '../assets/building.png';
 
 interface AccessRequestModalProps {
