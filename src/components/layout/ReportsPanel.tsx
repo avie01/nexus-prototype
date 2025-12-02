@@ -1,15 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import {
-  UsersIcon,
   GroupSecurityIcon,
-  ClipboardListIcon,
 } from '../icons';
 
 const ReportsPanel = () => {
   const reportItems = [
-    { to: '/reports/users-groups', label: 'Users & Groups', icon: UsersIcon },
     { to: '/reports/privilege-reporting', label: 'Privilege reporting', icon: GroupSecurityIcon },
-    { to: '/reports/workflows', label: 'Workflows', icon: ClipboardListIcon },
   ];
 
   const baseClasses = "flex items-center space-x-3 px-4 py-3 text-sm font-normal transition-colors";

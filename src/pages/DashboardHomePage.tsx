@@ -298,7 +298,7 @@ const DashboardHomePage = () => {
           <div>
             <CarbonDropdown
               id="type"
-              label="Type"
+              label="Hierarchy Depth"
               placeholder="Select type..."
               options={[
                 { value: 'parent', label: 'Parent' },
@@ -309,7 +309,7 @@ const DashboardHomePage = () => {
             />
           </div>
           <div>
-            <label htmlFor="search" className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Search</label>
+            <label htmlFor="search" className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Privilege Container</label>
             <input
               type="text"
               id="search"
