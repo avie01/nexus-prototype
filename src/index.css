@@ -1,0 +1,20 @@
+@import '@fontsource/noto-sans/400.css';
+@import '@fontsource/noto-sans/600.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-white text-gray-900 transition-colors duration-200;
+  }
+}
+
+/* Add smooth transitions for theme changes */
+* {
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+body {
+  /* The AppLayout component now controls the background */
+} 
