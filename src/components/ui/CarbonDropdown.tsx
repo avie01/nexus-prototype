@@ -126,7 +126,6 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
           style={{
             borderBottom: `1px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
             background: '#F5F5F5',
-            border: 'none',
             height: '44px',
             borderRadius: '0px'
           }}
