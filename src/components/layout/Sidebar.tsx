@@ -2,32 +2,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   DashboardIcon,
-  DocumentIcon,
-  CalendarIcon,
-  GroupIcon,
-  SettingsIcon,
   ChevronLeftIcon,
-  ClipboardListIcon,
-  UsersIcon,
-  BuildingIcon,
-  FileMultipleIcon,
   ChevronRightIcon,
-  Folders32Icon,
-  Home32Icon,
-  Star32Icon,
-  Task32Icon,
-  BareMetalServer32Icon,
 } from '../icons';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navItems = [
     { to: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
-    { to: '/page2', label: 'Page2', icon: Folders32Icon },
-    { to: '/page3', label: 'Page3', icon: Home32Icon },
-    { to: '/page4', label: 'Page4', icon: Star32Icon },
-    { to: '/page5', label: 'Page5', icon: Task32Icon },
-    { to: '/page6', label: 'Page6', icon: BareMetalServer32Icon },
   ];
 
   const baseClasses = "flex items-center space-x-3 px-3 h-14 text-sm font-normal transition-colors";
