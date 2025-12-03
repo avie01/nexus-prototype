@@ -7,13 +7,13 @@ interface DropdownOption {
   label: string;
   disabled?: boolean;
   secondaryText?: string;
-  icon?: React.ComponentType<{ size?: number; color?: string; className?: string }>;
+  icon?: React.ComponentType<any>;
 }
 
 interface DropdownGroup {
   label: string;
   options: DropdownOption[];
-  icon?: React.ComponentType<{ size?: number; color?: string }>;
+  icon?: React.ComponentType<any>;
 }
 
 interface CarbonDropdownProps {
