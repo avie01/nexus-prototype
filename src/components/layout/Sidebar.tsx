@@ -4,12 +4,26 @@ import {
   DashboardIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Folders32Icon,
+  SearchLocate32Icon,
+  Home32Icon,
+  Task32Icon,
+  Star32Icon,
+  ReportData32Icon,
+  SettingsAdjust32Icon,
 } from '../icons';
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const navItems = [
     { to: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
+    { to: '/dashboard', label: 'Global', icon: Folders32Icon },
+    { to: '/dashboard', label: 'My Home', icon: Home32Icon },
+    { to: '/dashboard', label: 'Handy', icon: Star32Icon },
+    { to: '/dashboard', label: 'Tasks', icon: Task32Icon },
+    { to: '/dashboard', label: 'Query', icon: SearchLocate32Icon },
+    { to: '/dashboard', label: 'Reporting', icon: ReportData32Icon },
+    { to: '/dashboard', label: 'Manage', icon: SettingsAdjust32Icon },
   ];
 
   const baseClasses = "flex items-center space-x-3 px-3 h-14 text-sm font-normal transition-colors";
@@ -22,18 +36,17 @@ const Sidebar = () => {
         <nav className="flex flex-col">
           {navItems.map((item) => {
             const Icon = item.icon;
+            const isActiveItem = item.label === 'Reporting';
             return (
               <NavLink
                 key={item.label}
                 to={item.to}
-                className={({ isActive }) => `${baseClasses} ${isActive ? activeClasses : inactiveClasses} ${collapsed ? 'justify-center px-0' : ''}`}
+                className={`${baseClasses} ${isActiveItem ? activeClasses : inactiveClasses} ${collapsed ? 'justify-center px-0' : ''}`}
               >
-                {({ isActive }) => (
-                  <>
-                    <Icon size={20} className={`flex-shrink-0 ${isActive ? 'text-[#3560C1]' : ''}`} />
-                    {!collapsed && <span className={isActive ? 'text-[#3560C1]' : ''}>{item.label}</span>}
-                  </>
-                )}
+                <>
+                  <Icon size={20} className={`flex-shrink-0 ${isActiveItem ? 'text-[#3560C1]' : ''}`} />
+                  {!collapsed && <span className={isActiveItem ? 'text-[#3560C1]' : ''}>{item.label}</span>}
+                </>
               </NavLink>
             );
           })}

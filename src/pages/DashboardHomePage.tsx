@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { GroupSecurityIcon } from '../components/icons';
+import { useState, useEffect, useRef } from 'react';
+import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, DocumentBlank32Icon, Folders32Icon, FolderIcon, Document32Icon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
+import { Badge } from '../components/ui/Badge';
 
 
 
@@ -8,6 +9,25 @@ const DashboardHomePage = () => {
   const [selectedPrivileges, setSelectedPrivileges] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showColumnModal, setShowColumnModal] = useState(false);
+  const [activeActionMenu, setActiveActionMenu] = useState<number | null>(null);
+  
+  // Column visibility state
+  const [columnVisibility, setColumnVisibility] = useState({
+    objectId: true,
+    parentId: true,
+    name: true,
+    see: true,
+    open: true,
+    create: true,
+    edit: true,
+    delete: true,
+    security: true,
+    admin: true,
+    userGroupId: true,
+    userGroupName: true,
+    classification: true
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   
@@ -214,24 +234,419 @@ const DashboardHomePage = () => {
       userGroupId: 'UG011',
       userGroupName: 'Public Relations',
       classification: 'Unofficial'
+    },
+    {
+      objectId: 'OBJ014',
+      parentId: 'PAR013',
+      name: 'Budget Reports',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG001',
+      userGroupName: 'Finance Team',
+      classification: 'Official sensitive'
+    },
+    {
+      objectId: 'OBJ015',
+      parentId: 'PAR014',
+      name: 'Strategy Documents',
+      see: 'No',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG010',
+      userGroupName: 'Executive Team',
+      classification: 'Secret'
+    },
+    {
+      objectId: 'OBJ016',
+      parentId: 'PAR015',
+      name: 'Employee Handbook',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG002',
+      userGroupName: 'HR Department',
+      classification: 'Official'
+    },
+    {
+      objectId: 'OBJ017',
+      parentId: 'PAR016',
+      name: 'System Logs',
+      see: 'Yes',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG004',
+      userGroupName: 'Administrators',
+      classification: 'Protected'
+    },
+    {
+      objectId: 'OBJ018',
+      parentId: 'PAR017',
+      name: 'Marketing Campaign',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'Yes',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG006',
+      userGroupName: 'Marketing Team',
+      classification: 'Unofficial'
+    },
+    {
+      objectId: 'OBJ019',
+      parentId: 'PAR018',
+      name: 'Research Data',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG012',
+      userGroupName: 'Research Team',
+      classification: 'Protected'
+    },
+    {
+      objectId: 'OBJ020',
+      parentId: 'PAR019',
+      name: 'Compliance Reports',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG007',
+      userGroupName: 'Legal Department',
+      classification: 'Official sensitive'
+    },
+    {
+      objectId: 'OBJ021',
+      parentId: 'PAR020',
+      name: 'Network Config',
+      see: 'No',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG004',
+      userGroupName: 'Administrators',
+      classification: 'Secret'
+    },
+    {
+      objectId: 'OBJ022',
+      parentId: 'PAR021',
+      name: 'Sales Forecasts',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG008',
+      userGroupName: 'Sales Team',
+      classification: 'Official'
+    },
+    {
+      objectId: 'OBJ023',
+      parentId: 'PAR022',
+      name: 'Board Minutes',
+      see: 'No',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG010',
+      userGroupName: 'Executive Team',
+      classification: 'Top Secret'
+    },
+    {
+      objectId: 'OBJ024',
+      parentId: 'PAR023',
+      name: 'Product Specs',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG013',
+      userGroupName: 'Product Team',
+      classification: 'Official'
+    },
+    {
+      objectId: 'OBJ025',
+      parentId: 'PAR024',
+      name: 'Audit Reports',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG014',
+      userGroupName: 'Audit Team',
+      classification: 'Protected'
+    },
+    {
+      objectId: 'OBJ026',
+      parentId: 'PAR025',
+      name: 'Press Releases',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'Yes',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG011',
+      userGroupName: 'Public Relations',
+      classification: 'Unofficial'
+    },
+    {
+      objectId: 'OBJ027',
+      parentId: 'PAR026',
+      name: 'Security Incidents',
+      see: 'No',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG005',
+      userGroupName: 'Security Team',
+      classification: 'Secret'
+    },
+    {
+      objectId: 'OBJ028',
+      parentId: 'PAR027',
+      name: 'Training Schedule',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG009',
+      userGroupName: 'Training Department',
+      classification: 'Official'
+    },
+    {
+      objectId: 'OBJ029',
+      parentId: 'PAR028',
+      name: 'Vendor Contracts',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG015',
+      userGroupName: 'Procurement',
+      classification: 'Official sensitive'
+    },
+    {
+      objectId: 'OBJ030',
+      parentId: 'PAR029',
+      name: 'Quality Standards',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'No',
+      edit: 'Yes',
+      delete: 'No',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG016',
+      userGroupName: 'Quality Team',
+      classification: 'Official'
+    },
+    {
+      objectId: 'OBJ031',
+      parentId: 'PAR030',
+      name: 'Disaster Recovery',
+      see: 'Yes',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'Yes',
+      userGroupId: 'UG004',
+      userGroupName: 'Administrators',
+      classification: 'Protected'
+    },
+    {
+      objectId: 'OBJ032',
+      parentId: 'PAR031',
+      name: 'Patent Documents',
+      see: 'No',
+      open: 'No',
+      create: 'No',
+      edit: 'No',
+      delete: 'No',
+      security: 'Yes',
+      admin: 'No',
+      userGroupId: 'UG007',
+      userGroupName: 'Legal Department',
+      classification: 'Secret'
+    },
+    {
+      objectId: 'OBJ033',
+      parentId: 'PAR032',
+      name: 'Newsletter Archive',
+      see: 'Yes',
+      open: 'Yes',
+      create: 'Yes',
+      edit: 'Yes',
+      delete: 'Yes',
+      security: 'No',
+      admin: 'No',
+      userGroupId: 'UG006',
+      userGroupName: 'Marketing Team',
+      classification: 'Unofficial'
     }
   ];
+  
+  // Filtered data
+  const [filteredData, setFilteredData] = useState(sampleData);
 
-  const handleSearch = () => {
-    setShowTable(true);
-    setIsLoading(true);
-    setCurrentPage(1);
+  // Handle click outside to close action menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (activeActionMenu !== null) {
+        setActiveActionMenu(null);
+      }
+    };
+
+    if (activeActionMenu !== null) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeActionMenu]);
+
+  // Apply filters whenever dependencies change
+  useEffect(() => {
+    let filtered = [...sampleData];
     
-    // Simulate loading for 3 seconds
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  };
+    // Filter by Users/Groups
+    if (usersGroupsValue) {
+      // Find the selected user/group from the dropdown options
+      const usersOptions = [
+        { value: 'john.doe', label: 'John Doe', secondaryText: 'ID: uA321' },
+        { value: 'jane.smith', label: 'Jane Smith', secondaryText: 'ID: uB457' },
+        { value: 'mike.johnson', label: 'Mike Johnson', secondaryText: 'ID: uC892' },
+        { value: 'sarah.wilson', label: 'Sarah Wilson', secondaryText: 'ID: uD234' },
+        { value: 'alex.brown', label: 'Alex Brown', secondaryText: 'ID: uE567' }
+      ];
+      
+      const groupsOptions = [
+        { value: 'administrators', label: 'Administrators', secondaryText: 'ID: gA123' },
+        { value: 'finance-team', label: 'Finance Team', secondaryText: 'ID: gB789' },
+        { value: 'hr-department', label: 'HR Department', secondaryText: 'ID: gC456' },
+        { value: 'project-managers', label: 'Project Managers', secondaryText: 'ID: gD012' },
+        { value: 'security-team', label: 'Security Team', secondaryText: 'ID: gE345' }
+      ];
+      
+      const allOptions = [...usersOptions, ...groupsOptions];
+      const selectedOption = allOptions.find(opt => opt.value === usersGroupsValue);
+      
+      if (selectedOption) {
+        // Extract the ID from the secondaryText (e.g., "ID: uA321" -> "uA321")
+        const selectedId = selectedOption.secondaryText?.replace('ID: ', '') || '';
+        
+        // Update all items to use the selected user/group's ID and name
+        filtered = filtered.map(item => ({
+          ...item,
+          userGroupId: selectedId,
+          userGroupName: selectedOption.label
+        }));
+      }
+    }
+    
+    // Filter by Classification
+    if (classificationValue) {
+      const classificationMap: { [key: string]: string } = {
+        'unofficial': 'Unofficial',
+        'official': 'Official',
+        'official-sensitive': 'Official sensitive',
+        'protected': 'Protected',
+        'secret': 'Secret',
+        'top-secret': 'Top Secret'
+      };
+      
+      const selectedClassification = classificationMap[classificationValue];
+      if (selectedClassification) {
+        filtered = filtered.filter(item => item.classification === selectedClassification);
+      }
+    }
+    
+    // Apply privilege modifications
+    if (selectedPrivileges.length > 0) {
+      filtered = filtered.map(item => {
+        const modifiedItem = { ...item };
+        
+        // Apply permissions
+        if (selectedPrivileges.includes('can-see')) modifiedItem.see = 'Yes';
+        if (selectedPrivileges.includes('can-open')) modifiedItem.open = 'Yes';
+        if (selectedPrivileges.includes('can-create')) modifiedItem.create = 'Yes';
+        if (selectedPrivileges.includes('can-edit')) modifiedItem.edit = 'Yes';
+        if (selectedPrivileges.includes('can-delete')) modifiedItem.delete = 'Yes';
+        if (selectedPrivileges.includes('can-edit-security')) modifiedItem.security = 'Yes';
+        if (selectedPrivileges.includes('can-admin')) modifiedItem.admin = 'Yes';
+        
+        // Apply restrictions
+        if (selectedPrivileges.includes('cant-see')) modifiedItem.see = 'No';
+        if (selectedPrivileges.includes('cant-open')) modifiedItem.open = 'No';
+        if (selectedPrivileges.includes('cant-create')) modifiedItem.create = 'No';
+        if (selectedPrivileges.includes('cant-edit')) modifiedItem.edit = 'No';
+        if (selectedPrivileges.includes('cant-delete')) modifiedItem.delete = 'No';
+        if (selectedPrivileges.includes('cant-edit-security')) modifiedItem.security = 'No';
+        if (selectedPrivileges.includes('cant-admin')) modifiedItem.admin = 'No';
+        
+        return modifiedItem;
+      });
+    }
+    
+    setFilteredData(filtered);
+  }, [usersGroupsValue, classificationValue, selectedPrivileges]);
 
-  const totalPages = Math.ceil(sampleData.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = sampleData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -256,6 +671,16 @@ const DashboardHomePage = () => {
       'cant-admin': 'can-admin'
     };
     return selectedPrivileges.includes(privilegeMapping[restriction]);
+  };
+
+  const getClassificationVariant = (classification: string): 'default' | 'success' | 'danger' | 'warning' | 'info' | 'error' => {
+    const lowerClassification = classification.toLowerCase();
+    if (lowerClassification.includes('top secret')) return 'error';
+    if (lowerClassification.includes('secret')) return 'danger';
+    if (lowerClassification.includes('protected')) return 'info';
+    if (lowerClassification.includes('official sensitive')) return 'warning';
+    if (lowerClassification.includes('official')) return 'success';
+    return 'default';
   };
 
 
@@ -294,15 +719,15 @@ const DashboardHomePage = () => {
           </h1>
           <p className="text-gray-600">Last privilege update: 14/12/2017 4:56 PM</p>
         </div>
-        <div className="grid grid-cols-[25%_1fr_80px] gap-4 mt-4">
+        <div className="grid grid-cols-[379px_1fr_80px] gap-4 mt-4">
           <div>
             <CarbonDropdown
               id="type"
               label="Hierarchy Depth"
               placeholder="Select type..."
               options={[
-                { value: 'parent', label: 'Parent' },
-                { value: 'ancestor', label: 'Ancestor' }
+                { value: 'parent', label: 'Parent', icon: FolderIcon },
+                { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
               ]}
               value={typeValue}
               onChange={setTypeValue}
@@ -335,7 +760,7 @@ const DashboardHomePage = () => {
           <div className="flex flex-col">
             <div className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>&nbsp;</div>
             <button
-              onClick={handleSearch}
+              onClick={() => setShowTable(true)}
               className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{
                 display: 'flex',
@@ -348,7 +773,8 @@ const DashboardHomePage = () => {
                 alignSelf: 'stretch',
                 borderRadius: '2px',
                 background: '#3560C1',
-                border: 'none'
+                border: 'none',
+                cursor: 'pointer'
               }}
             >
               Search
@@ -362,12 +788,12 @@ const DashboardHomePage = () => {
               label="Object types"
               placeholder="Select object type..."
               options={[
-                { value: 'all-objects', label: 'All objects' },
-                { value: 'documents', label: 'Documents' },
-                { value: 'files', label: 'Files' },
-                { value: 'file-or-folders', label: 'File or Folders' },
-                { value: 'folders', label: 'Folders' },
-                { value: 'physical-documents', label: 'Physical documents' }
+                { value: 'all-objects', label: 'All objects', icon: Search32Icon },
+                { value: 'documents', label: 'Documents', icon: DocumentBlank32Icon },
+                { value: 'files', label: 'Files', icon: Folders32Icon },
+                { value: 'file-or-folders', label: 'File or Folders', icon: FolderIcon },
+                { value: 'folders', label: 'Folders', icon: FolderIcon },
+                { value: 'physical-documents', label: 'Physical documents', icon: Document32Icon }
               ]}
               value={objectTypesValue}
               onChange={setObjectTypesValue}
@@ -381,22 +807,24 @@ const DashboardHomePage = () => {
               groups={[
                 {
                   label: 'Users',
+                  icon: User32Icon,
                   options: [
-                    { value: 'john.doe', label: 'John Doe' },
-                    { value: 'jane.smith', label: 'Jane Smith' },
-                    { value: 'mike.johnson', label: 'Mike Johnson' },
-                    { value: 'sarah.wilson', label: 'Sarah Wilson' },
-                    { value: 'alex.brown', label: 'Alex Brown' }
+                    { value: 'john.doe', label: 'John Doe', secondaryText: 'ID: uA321' },
+                    { value: 'jane.smith', label: 'Jane Smith', secondaryText: 'ID: uB457' },
+                    { value: 'mike.johnson', label: 'Mike Johnson', secondaryText: 'ID: uC892' },
+                    { value: 'sarah.wilson', label: 'Sarah Wilson', secondaryText: 'ID: uD234' },
+                    { value: 'alex.brown', label: 'Alex Brown', secondaryText: 'ID: uE567' }
                   ]
                 },
                 {
                   label: 'Groups',
+                  icon: Events32Icon,
                   options: [
-                    { value: 'administrators', label: 'Administrators' },
-                    { value: 'finance-team', label: 'Finance Team' },
-                    { value: 'hr-department', label: 'HR Department' },
-                    { value: 'project-managers', label: 'Project Managers' },
-                    { value: 'security-team', label: 'Security Team' }
+                    { value: 'administrators', label: 'Administrators', secondaryText: 'ID: gA123' },
+                    { value: 'finance-team', label: 'Finance Team', secondaryText: 'ID: gB789' },
+                    { value: 'hr-department', label: 'HR Department', secondaryText: 'ID: gC456' },
+                    { value: 'project-managers', label: 'Project Managers', secondaryText: 'ID: gD012' },
+                    { value: 'security-team', label: 'Security Team', secondaryText: 'ID: gE345' }
                   ]
                 }
               ]}
@@ -455,6 +883,7 @@ const DashboardHomePage = () => {
               ]}
               value={classificationValue}
               onChange={setClassificationValue}
+              showAsChips={true}
             />
           </div>
         </div>
@@ -475,32 +904,59 @@ const DashboardHomePage = () => {
             fontWeight: '400', 
             lineHeight: '130%'
           }}>
-            Results (13)
+            Results ({filteredData.length})
           </span>
-          <button
-            className="hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            style={{
-              display: 'inline-flex',
-              height: '44px',
-              padding: '6px 12px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '6px',
-              borderRadius: '2px',
-              border: '1px solid var(--grey-500-obj-light-deco, #D1D1D1)',
-              background: 'var(--paper-obj-white-ff, #FFF)',
-              color: 'var(--secondary-obj-twilight, #525965)',
-              textAlign: 'center',
-              fontFamily: 'Noto Sans',
-              fontSize: '14px',
-              fontStyle: 'normal',
-              fontWeight: '500',
-              lineHeight: '21px',
-              cursor: 'pointer'
-            }}
-          >
-            Export results
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setShowColumnModal(true)}
+              className="hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                display: 'inline-flex',
+                height: '32px',
+                padding: '6px 12px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '6px',
+                borderRadius: '2px',
+                border: '1px solid var(--grey-500-obj-light-deco, #D1D1D1)',
+                background: 'var(--paper-obj-white-ff, #FFF)',
+                color: 'var(--secondary-obj-twilight, #525965)',
+                textAlign: 'center',
+                fontFamily: 'Noto Sans',
+                fontSize: '14px',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                lineHeight: '21px',
+                cursor: 'pointer'
+              }}
+            >
+              Edit columns
+            </button>
+            <button
+              className="hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{
+                display: 'inline-flex',
+                height: '32px',
+                padding: '6px 12px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '6px',
+                borderRadius: '2px',
+                border: '1px solid var(--grey-500-obj-light-deco, #D1D1D1)',
+                background: 'var(--paper-obj-white-ff, #FFF)',
+                color: 'var(--secondary-obj-twilight, #525965)',
+                textAlign: 'center',
+                fontFamily: 'Noto Sans',
+                fontSize: '14px',
+                fontStyle: 'normal',
+                fontWeight: '500',
+                lineHeight: '21px',
+                cursor: 'pointer'
+              }}
+            >
+              Export results
+            </button>
+          </div>
         </div>
       )}
       {showTable && (
@@ -509,19 +965,19 @@ const DashboardHomePage = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Object ID</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Parent ID</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Name</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>See</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Open</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Create</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Edit</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Delete</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Security</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Admin</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>UserGroup ID</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>UserGroup Name</th>
-                  <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #d1d1d1', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Classification</th>
+                  {columnVisibility.objectId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Object ID</th>}
+                  {columnVisibility.parentId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Parent ID</th>}
+                  {columnVisibility.name && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Name</th>}
+                  {columnVisibility.see && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>See</th>}
+                  {columnVisibility.open && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Open</th>}
+                  {columnVisibility.create && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Create</th>}
+                  {columnVisibility.edit && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Edit</th>}
+                  {columnVisibility.delete && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Delete</th>}
+                  {columnVisibility.security && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Security</th>}
+                  {columnVisibility.admin && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Admin</th>}
+                  {columnVisibility.userGroupId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>UserGroup ID</th>}
+                  {columnVisibility.userGroupName && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>UserGroup Name</th>}
+                  {columnVisibility.classification && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Classification</th>}
                   <th className="text-left py-3 px-4" style={{ color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Actions</th>
                 </tr>
               </thead>
@@ -530,48 +986,20 @@ const DashboardHomePage = () => {
                   // Skeleton loading rows
                   Array.from({ length: Math.min(itemsPerPage, currentData.length || 5) }).map((_, index) => (
                     <tr key={`skeleton-${index}`} className="border-b border-gray-100">
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="60px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="70px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="120px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="40px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="40px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="50px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="40px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="50px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="60px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="50px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="60px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="100px" />
-                      </td>
-                      <td className="py-3 px-4" style={{ borderRight: '1px solid #d1d1d1' }}>
-                        <SkeletonCell width="80px" />
-                      </td>
-                      <td className="py-3 px-4">
-                        <SkeletonCell width="24px" />
-                      </td>
+                      {columnVisibility.objectId && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="60px" /></td>}
+                      {columnVisibility.parentId && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="70px" /></td>}
+                      {columnVisibility.name && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="120px" /></td>}
+                      {columnVisibility.see && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="40px" /></td>}
+                      {columnVisibility.open && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="40px" /></td>}
+                      {columnVisibility.create && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="50px" /></td>}
+                      {columnVisibility.edit && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="40px" /></td>}
+                      {columnVisibility.delete && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="50px" /></td>}
+                      {columnVisibility.security && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="60px" /></td>}
+                      {columnVisibility.admin && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="50px" /></td>}
+                      {columnVisibility.userGroupId && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="60px" /></td>}
+                      {columnVisibility.userGroupName && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="100px" /></td>}
+                      {columnVisibility.classification && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="80px" /></td>}
+                      <td className="py-3 px-4"><SkeletonCell width="24px" /></td>
                     </tr>
                   ))
                 ) : (
@@ -581,21 +1009,26 @@ const DashboardHomePage = () => {
                       key={index} 
                       className="border-b border-gray-100 hover:bg-[#E8E8E8] transition-colors"
                     >
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.objectId}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.parentId}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.name}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.see}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.open}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.create}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.edit}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.delete}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.security}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.admin}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.userGroupId}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.userGroupName}</td>
-                      <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #d1d1d1' }}>{row.classification}</td>
-                      <td className="py-3 px-4">
+                      {columnVisibility.objectId && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.objectId}</td>}
+                      {columnVisibility.parentId && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.parentId}</td>}
+                      {columnVisibility.name && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.name}</td>}
+                      {columnVisibility.see && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.see}</td>}
+                      {columnVisibility.open && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.open}</td>}
+                      {columnVisibility.create && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.create}</td>}
+                      {columnVisibility.edit && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.edit}</td>}
+                      {columnVisibility.delete && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.delete}</td>}
+                      {columnVisibility.security && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.security}</td>}
+                      {columnVisibility.admin && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.admin}</td>}
+                      {columnVisibility.userGroupId && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.userGroupId}</td>}
+                      {columnVisibility.userGroupName && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>{row.userGroupName}</td>}
+                      {columnVisibility.classification && <td className="py-3 px-4 text-sm text-gray-900" style={{ borderRight: '1px solid #EDF1F5' }}>
+                        <Badge variant={getClassificationVariant(row.classification)}>
+                          {row.classification}
+                        </Badge>
+                      </td>}
+                      <td className="py-3 px-4 relative">
                         <button
+                          onClick={() => setActiveActionMenu(activeActionMenu === index ? null : index)}
                           className="flex items-center justify-center w-6 h-6 hover:bg-gray-100 rounded"
                           style={{
                             color: '#707070'
@@ -612,6 +1045,54 @@ const DashboardHomePage = () => {
                             }}
                           />
                         </button>
+                        
+                        {/* Actions Menu Popup */}
+                        {activeActionMenu === index && (
+                          <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-48">
+                            <div className="py-2">
+                              <button
+                                onClick={() => {
+                                  setActiveActionMenu(null);
+                                  // Handle Details action
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              >
+                                <Information32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
+                                Details
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setActiveActionMenu(null);
+                                  // Handle Rename action
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              >
+                                <TextSelection32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
+                                Rename
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setActiveActionMenu(null);
+                                  // Handle Edit privileges action
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              >
+                                <Security32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
+                                Edit privileges
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setActiveActionMenu(null);
+                                  // Handle Delete action
+                                }}
+                                className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              >
+                                <TrashCan32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -619,9 +1100,9 @@ const DashboardHomePage = () => {
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#d1d1d1' }}>
+          <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#EDF1F5' }}>
             <div className="text-sm text-gray-700">
-              Showing {startIndex + 1} to {Math.min(endIndex, sampleData.length)} of {sampleData.length} results
+              Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} results
             </div>
             <div className="flex items-center space-x-2">
               <button
@@ -663,6 +1144,73 @@ const DashboardHomePage = () => {
                 }}
               >
                 Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Edit Columns Modal */}
+      {showColumnModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Edit Columns</h3>
+              <button
+                onClick={() => setShowColumnModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <Close32Icon size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-3 max-h-80 overflow-y-auto">
+              {Object.entries(columnVisibility).map(([key, visible]) => {
+                const labels = {
+                  objectId: 'Object ID',
+                  parentId: 'Parent ID',
+                  name: 'Name',
+                  see: 'See',
+                  open: 'Open',
+                  create: 'Create',
+                  edit: 'Edit',
+                  delete: 'Delete',
+                  security: 'Security',
+                  admin: 'Admin',
+                  userGroupId: 'UserGroup ID',
+                  userGroupName: 'UserGroup Name',
+                  classification: 'Classification'
+                };
+                
+                return (
+                  <label key={key} className="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={visible}
+                      onChange={(e) => setColumnVisibility(prev => ({
+                        ...prev,
+                        [key]: e.target.checked
+                      }))}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <span className="text-sm text-gray-700">{labels[key as keyof typeof labels]}</span>
+                  </label>
+                );
+              })}
+            </div>
+            
+            <div className="flex justify-end space-x-2 mt-6">
+              <button
+                onClick={() => setShowColumnModal(false)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setShowColumnModal(false)}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+              >
+                Apply
               </button>
             </div>
           </div>

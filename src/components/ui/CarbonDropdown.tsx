@@ -1,14 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Badge } from './Badge';
+import { CheckboxCheckedFilled32Icon, Checkbox32Icon, Close32Icon } from '../icons';
 
 interface DropdownOption {
   value: string;
   label: string;
   disabled?: boolean;
+  secondaryText?: string;
+  icon?: React.ComponentType<{ size?: number; color?: string; className?: string }>;
 }
 
 interface DropdownGroup {
   label: string;
   options: DropdownOption[];
+  icon?: React.ComponentType<{ size?: number; color?: string }>;
 }
 
 interface CarbonDropdownProps {
@@ -25,6 +30,8 @@ interface CarbonDropdownProps {
   multiple?: boolean;
   values?: string[];
   onMultiChange?: (values: string[]) => void;
+  showAsChips?: boolean;
+  onClear?: () => void;
 }
 
 const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
@@ -40,7 +47,9 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
   helperText,
   multiple = false,
   values = [],
-  onMultiChange
+  onMultiChange,
+  showAsChips = false,
+  onClear
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,6 +66,35 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
 
   const selectedOption = allOptions.find(option => option.value === value);
   const selectedOptions = allOptions.filter(option => values.includes(option.value));
+  
+  // Find icon for the selected option
+  const getOptionIcon = (optionValue: string) => {
+    // First check if the option itself has an icon
+    const option = allOptions.find(opt => opt.value === optionValue);
+    if (option?.icon) {
+      return option.icon;
+    }
+    
+    // Then check if it belongs to a group with an icon
+    if (groups.length > 0) {
+      for (const group of groups) {
+        if (group.options.some(opt => opt.value === optionValue)) {
+          return group.icon;
+        }
+      }
+    }
+    return null;
+  };
+
+  const getClassificationVariant = (classification: string): 'default' | 'success' | 'danger' | 'warning' | 'info' | 'error' => {
+    const lowerClassification = classification.toLowerCase();
+    if (lowerClassification.includes('top secret')) return 'error';
+    if (lowerClassification.includes('secret')) return 'danger';
+    if (lowerClassification.includes('protected')) return 'info';
+    if (lowerClassification.includes('official sensitive')) return 'warning';
+    if (lowerClassification.includes('official')) return 'success';
+    return 'default';
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -97,12 +135,108 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
   const getDisplayText = () => {
     if (multiple) {
       if (selectedOptions.length === 0) return placeholder;
-      return selectedOptions.map(opt => opt.label).join(', ');
+      const displayOptions = selectedOptions.slice(0, 3);
+      const remainingCount = selectedOptions.length - 3;
+      const text = displayOptions.map(opt => opt.label).join(', ');
+      return remainingCount > 0 ? `${text} +${remainingCount} more` : text;
     }
     return selectedOption?.label || placeholder;
   };
 
+  const getDisplayContent = () => {
+    const SelectedIcon = selectedOption && !multiple ? getOptionIcon(selectedOption.value) : null;
+    
+    if (showAsChips && !multiple && selectedOption) {
+      return (
+        <div className="flex items-center w-full">
+          {SelectedIcon && (
+            <SelectedIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+          )}
+          <Badge variant={getClassificationVariant(selectedOption.label)}>
+            {selectedOption.label}
+          </Badge>
+          {selectedOption.secondaryText && (
+            <span 
+              style={{
+                marginLeft: 'auto',
+                marginRight: '16px',
+                color: '#707070',
+                fontFamily: 'Noto Sans',
+                fontSize: '12px',
+                fontWeight: '400',
+                lineHeight: '24px'
+              }}
+            >
+              {selectedOption.secondaryText}
+            </span>
+          )}
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center w-full">
+        {SelectedIcon && (
+          <SelectedIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+        )}
+        <span 
+          style={isPlaceholder ? {
+            color: '#707070',
+            fontFamily: 'Noto Sans',
+            fontSize: '14px',
+            fontStyle: 'italic',
+            fontWeight: '400',
+            lineHeight: '24px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            display: 'block'
+          } : {
+            color: '#32373F',
+            fontFamily: 'Noto Sans',
+            fontSize: '14px',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: '24px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            display: 'block'
+          }}
+        >
+          {getDisplayText()}
+        </span>
+        {selectedOption && selectedOption.secondaryText && (
+          <span 
+            style={{
+              marginLeft: 'auto',
+              marginRight: '16px',
+              color: '#707070',
+              fontFamily: 'Noto Sans',
+              fontSize: '12px',
+              fontWeight: '400',
+              lineHeight: '24px'
+            }}
+          >
+            {selectedOption.secondaryText}
+          </span>
+        )}
+      </div>
+    );
+  };
+
   const isPlaceholder = multiple ? selectedOptions.length === 0 : !selectedOption;
+  const hasValue = multiple ? selectedOptions.length > 0 : selectedOption;
+
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (multiple) {
+      onMultiChange?.([]);
+    } else {
+      onChange?.('');
+    }
+    onClear?.();
+    setSearchTerm('');
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -156,27 +290,24 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                 }}
               />
             ) : (
-              <span 
-                style={isPlaceholder ? {
-                  color: '#707070',
-                  fontFamily: 'Noto Sans',
-                  fontSize: '14px',
-                  fontStyle: 'italic',
-                  fontWeight: '400',
-                  lineHeight: '24px'
-                } : {
-                  color: '#32373F',
-                  fontFamily: 'Noto Sans',
-                  fontSize: '14px',
-                  fontStyle: 'normal',
-                  fontWeight: '400',
-                  lineHeight: '24px'
-                }}
-              >
-                {getDisplayText()}
-              </span>
+              getDisplayContent()
             )}
           </div>
+          {hasValue && !disabled && (
+            <button
+              onClick={handleClear}
+              className="flex items-center justify-center mr-2 hover:bg-gray-100 rounded"
+              style={{
+                width: '16px',
+                height: '16px',
+                padding: '0',
+                border: 'none',
+                background: 'transparent'
+              }}
+            >
+              <Close32Icon size={16} color="#525965" />
+            </button>
+          )}
           <div 
             style={{
               width: '1rem',
@@ -227,6 +358,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                     .map((option) => {
                       const isSelected = multiple ? values.includes(option.value) : value === option.value;
                       const isDisabled = option.disabled;
+                      const GroupIcon = group.icon;
                       
                       return (
                         <div
@@ -242,25 +374,37 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                           onClick={() => !isDisabled && handleOptionSelect(option.value)}
                         >
                           {multiple && (
-                            <div
-                              className="mr-2 flex-shrink-0"
-                              style={{
-                                width: '16px',
-                                height: '16px',
-                                border: '2px solid #d1d1d1',
-                                borderRadius: '2px',
-                                backgroundColor: isSelected ? '#3560C1' : 'transparent',
-                                borderColor: isSelected ? '#3560C1' : '#d1d1d1',
-                                backgroundImage: isSelected ? 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\' fill=\'%23ffffff\'%3e%3cpath d=\'M13.1 4.7L6.5 11.3 2.9 7.7l.7-.7 2.9 2.9 6.1-6.1.5.9z\'/%3e%3c/svg%3e")' : 'none',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',
-                                backgroundSize: '12px'
-                              }}
-                            />
+                            isSelected ? (
+                              <CheckboxCheckedFilled32Icon size={16} color="#3560C1" className="mr-2 flex-shrink-0" />
+                            ) : (
+                              <Checkbox32Icon size={16} color="#525965" className="mr-2 flex-shrink-0" />
+                            )
                           )}
-                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
-                            {option.label}
-                          </span>
+                          {GroupIcon && (
+                            <GroupIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+                          )}
+                          {showAsChips ? (
+                            <Badge variant={getClassificationVariant(option.label)}>
+                              {option.label}
+                            </Badge>
+                          ) : (
+                            <div style={{ flex: 1, overflow: 'hidden' }}>
+                              <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {option.label}
+                              </div>
+                              {option.secondaryText && (
+                                <div style={{ 
+                                  fontSize: '12px', 
+                                  color: '#707070', 
+                                  overflow: 'hidden', 
+                                  textOverflow: 'ellipsis', 
+                                  whiteSpace: 'nowrap' 
+                                }}>
+                                  {option.secondaryText}
+                                </div>
+                              )}
+                            </div>
+                          )}
                           {!multiple && isSelected && (
                             <div
                               style={{
@@ -282,6 +426,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
               filteredOptions.map((option) => {
                 const isSelected = multiple ? values.includes(option.value) : value === option.value;
                 const isDisabled = option.disabled;
+                const OptionIcon = option.icon;
                 
                 return (
                   <div
@@ -297,25 +442,37 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                     onClick={() => !isDisabled && handleOptionSelect(option.value)}
                   >
                     {multiple && (
-                      <div
-                        className="mr-2 flex-shrink-0"
-                        style={{
-                          width: '16px',
-                          height: '16px',
-                          border: '2px solid #d1d1d1',
-                          borderRadius: '2px',
-                          backgroundColor: isSelected ? '#3560C1' : 'transparent',
-                          borderColor: isSelected ? '#3560C1' : '#d1d1d1',
-                          backgroundImage: isSelected ? 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\' fill=\'%23ffffff\'%3e%3cpath d=\'M13.1 4.7L6.5 11.3 2.9 7.7l.7-.7 2.9 2.9 6.1-6.1.5.9z\'/%3e%3c/svg%3e")' : 'none',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center',
-                          backgroundSize: '12px'
-                        }}
-                      />
+                      isSelected ? (
+                        <CheckboxCheckedFilled32Icon size={16} color="#3560C1" className="mr-2 flex-shrink-0" />
+                      ) : (
+                        <Checkbox32Icon size={16} color="#525965" className="mr-2 flex-shrink-0" />
+                      )
                     )}
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
-                      {option.label}
-                    </span>
+                    {OptionIcon && (
+                      <OptionIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+                    )}
+                    {showAsChips ? (
+                      <Badge variant={getClassificationVariant(option.label)}>
+                        {option.label}
+                      </Badge>
+                    ) : (
+                      <div style={{ flex: 1, overflow: 'hidden' }}>
+                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {option.label}
+                        </div>
+                        {option.secondaryText && (
+                          <div style={{ 
+                            fontSize: '12px', 
+                            color: '#707070', 
+                            overflow: 'hidden', 
+                            textOverflow: 'ellipsis', 
+                            whiteSpace: 'nowrap' 
+                          }}>
+                            {option.secondaryText}
+                          </div>
+                        )}
+                      </div>
+                    )}
                     {!multiple && isSelected && (
                       <div
                         style={{
