@@ -780,8 +780,8 @@ const DashboardHomePage = () => {
                 lineHeight: '24px'
               }}
               onFocus={(e) => {
-                e.target.style.border = '1px solid transparent';
-                e.target.style.borderBottom = '1px solid #3560C1';
+                e.target.style.border = '2px solid #3560C1';
+                e.target.style.borderBottom = '2px solid #3560C1';
                 e.target.style.background = '#E8E8E8';
               }}
               onBlur={(e) => {
@@ -1056,8 +1056,8 @@ const DashboardHomePage = () => {
                       {columnVisibility.security && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="60px" /></td>}
                       {columnVisibility.admin && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="50px" /></td>}
                       {columnVisibility.userGroupId && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="60px" /></td>}
-                      {columnVisibility.userGroupName && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="100px" /></td>}
-                      {columnVisibility.classification && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="80px" /></td>}
+                      {columnVisibility.userGroupName && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="90px" /></td>}
+                      {columnVisibility.classification && <td className="py-3 px-4" style={{ borderRight: '1px solid #EDF1F5' }}><SkeletonCell width="105px" /></td>}
                       <td className="py-3 px-4"><SkeletonCell width="24px" /></td>
                     </tr>
                   ))

@@ -259,8 +259,8 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
         <div
           className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} transition-all`}
           style={{
-            border: '1px solid transparent',
-            borderBottom: `1px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
+            border: isOpen ? '2px solid #3560C1' : '1px solid transparent',
+            borderBottom: isOpen ? '2px solid #3560C1' : `1px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
             background: isOpen ? '#E8E8E8' : '#F5F5F5',
             height: '44px',
             borderRadius: '0px'
