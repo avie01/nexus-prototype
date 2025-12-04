@@ -259,11 +259,11 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
         <div
           className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} transition-all`}
           style={{
-            border: isOpen ? '2px solid #3560C1' : '2px solid transparent',
-            borderBottom: `2px solid ${invalid ? '#DA1E28' : isOpen ? '#3560C1' : '#ACACAC'}`,
+            border: '2px solid transparent',
+            borderBottom: `2px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
             background: isOpen ? '#E8E8E8' : '#F5F5F5',
             height: '44px',
-            borderRadius: isOpen ? '4px 4px 0 0' : '0px'
+            borderRadius: '0px'
           }}
           onClick={handleToggle}
           role="combobox"
@@ -370,10 +370,9 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
             style={{
               backgroundColor: '#ffffff',
               border: '2px solid #3560C1',
-              borderTop: 'none',
-              borderRadius: '0 0 4px 4px',
+              borderRadius: '4px',
               top: '100%',
-              marginTop: '-2px',
+              marginTop: '2px',
               maxHeight: '200px',
               overflowY: 'auto',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
