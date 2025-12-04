@@ -42,6 +42,6 @@ export * from './Information32Icon';
 export * from './TextSelection32Icon';
 export * from './Security32Icon';
 export * from './TrashCan32Icon';
-export { default as ChevronUp32Icon } from './ChevronUp32Icon';
+export * from './ChevronUp32Icon';
 export { default as FormatEditIcon } from './FormatEditIcon';
 export { default as UploadIcon } from './UploadIcon'; 
