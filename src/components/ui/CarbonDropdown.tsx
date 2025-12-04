@@ -241,6 +241,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
   return (
     <div className="relative" ref={dropdownRef}>
       <label 
+        id={`${id}-label`}
         htmlFor={id} 
         className="block mb-1" 
         style={{ 
@@ -264,6 +265,18 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
             borderRadius: '0px'
           }}
           onClick={handleToggle}
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-controls={`${id}-listbox`}
+          aria-haspopup="listbox"
+          aria-labelledby={`${id}-label`}
+          tabIndex={disabled ? -1 : 0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleToggle();
+            }
+          }}
         >
           <div className="flex-1 flex items-center">
             {isOpen ? (

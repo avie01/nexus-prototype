@@ -6,7 +6,7 @@ interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function Badge({ className, variant = 'default', ...props }: BadgeProps) {
-  const baseClasses = 'inline-flex items-center rounded border px-2.5 py-0.5 text-xs font-semibold transition-colors';
+  const baseClasses = 'transition-colors';
   
   const variantClasses = {
     default: 'border-gray-300 bg-white text-gray-800',
@@ -21,7 +21,18 @@ function Badge({ className, variant = 'default', ...props }: BadgeProps) {
     <div
       className={cn(baseClasses, variantClasses[variant], className)}
       style={{
+        display: 'inline-flex',
+        padding: '4px 6px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '4px',
+        height: '24px',
         borderRadius: '4px',
+        fontFamily: '"Noto Sans"',
+        fontSize: '14px',
+        fontStyle: 'normal',
+        fontWeight: '500',
+        lineHeight: '20px',
         ...(variant === 'default' || variant === 'success' || variant === 'warning' ? {
           border: '1px solid #D1D1D1',
           background: '#FFF'

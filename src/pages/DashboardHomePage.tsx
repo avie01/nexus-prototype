@@ -710,11 +710,34 @@ const DashboardHomePage = () => {
           background-size: 200% 100%;
           animation: skeleton-loading 1.5s infinite;
         }
+        
+        /* Enhanced focus indicators for accessibility */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        [role="combobox"]:focus-visible,
+        [role="menuitem"]:focus-visible,
+        [tabindex]:focus-visible {
+          outline: 3px solid #3560C1 !important;
+          outline-offset: 2px !important;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+          button:focus-visible,
+          a:focus-visible,
+          input:focus-visible,
+          [role="combobox"]:focus-visible,
+          [role="menuitem"]:focus-visible,
+          [tabindex]:focus-visible {
+            outline: 3px solid currentColor !important;
+          }
+        }
       `}</style>
       <div className="p-6" style={{ backgroundColor: '#ffffff', borderRadius: showTable ? '16px 16px 0px 0px' : '16px' }}>
         <div className="flex justify-between items-center">
           <h1 className="font-semibold flex items-center gap-2" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '20px', fontWeight: '600', lineHeight: '36px' }}>
-            <GroupSecurityIcon size={20} />
+            <GroupSecurityIcon size={20} aria-hidden="true" />
             Privilege reporting
           </h1>
           <p className="text-gray-600">Last privilege update: 14/12/2017 4:56 PM</p>
@@ -770,6 +793,7 @@ const DashboardHomePage = () => {
                 }, 1500);
               }}
               className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Search privilege reporting data"
               style={{
                 display: 'flex',
                 height: '44px',
@@ -917,6 +941,7 @@ const DashboardHomePage = () => {
             <button
               onClick={() => setShowColumnModal(true)}
               className="hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Edit table columns visibility"
               style={{
                 display: 'inline-flex',
                 height: '32px',
@@ -941,6 +966,7 @@ const DashboardHomePage = () => {
             </button>
             <button
               className="hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Export results to file"
               style={{
                 display: 'inline-flex',
                 height: '32px',
@@ -969,7 +995,7 @@ const DashboardHomePage = () => {
       {showTable && (
         <div style={{ backgroundColor: '#ffffff', borderRadius: '0px 0px 16px 16px' }}>
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full" role="table" aria-label="Privilege reporting results">
               <thead>
                 <tr className="border-b border-gray-200">
                   {columnVisibility.objectId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Object ID</th>}
@@ -1040,6 +1066,9 @@ const DashboardHomePage = () => {
                           style={{
                             color: '#707070'
                           }}
+                          aria-label={`Actions menu for ${row.name}`}
+                          aria-expanded={activeActionMenu === index}
+                          aria-haspopup="true"
                         >
                           <div
                             style={{
@@ -1055,7 +1084,7 @@ const DashboardHomePage = () => {
                         
                         {/* Actions Menu Popup */}
                         {activeActionMenu === index && (
-                          <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-48">
+                          <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-48" role="menu" aria-labelledby="actions-menu">
                             <div className="py-2">
                               <button
                                 onClick={() => {
@@ -1063,6 +1092,7 @@ const DashboardHomePage = () => {
                                   // Handle Details action
                                 }}
                                 className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
                               >
                                 <Information32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
                                 Details
@@ -1073,6 +1103,7 @@ const DashboardHomePage = () => {
                                   // Handle Rename action
                                 }}
                                 className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
                               >
                                 <TextSelection32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
                                 Rename
@@ -1083,6 +1114,7 @@ const DashboardHomePage = () => {
                                   // Handle Edit privileges action
                                 }}
                                 className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
                               >
                                 <Security32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
                                 Edit privileges
@@ -1093,6 +1125,7 @@ const DashboardHomePage = () => {
                                   // Handle Delete action
                                 }}
                                 className="flex items-center w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem"
                               >
                                 <TrashCan32Icon size={16} className="mr-3" style={{ color: '#32373F' }} />
                                 Delete
@@ -1116,6 +1149,7 @@ const DashboardHomePage = () => {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className="px-3 py-1 text-sm border rounded"
+                aria-label="Go to previous page"
                 style={{ 
                   borderColor: '#d1d1d1',
                   backgroundColor: currentPage === 1 ? '#f5f5f5' : '#ffffff',
@@ -1143,6 +1177,7 @@ const DashboardHomePage = () => {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 className="px-3 py-1 text-sm border rounded"
+                aria-label="Go to next page"
                 style={{ 
                   borderColor: '#d1d1d1',
                   backgroundColor: currentPage === totalPages ? '#f5f5f5' : '#ffffff',
@@ -1166,6 +1201,7 @@ const DashboardHomePage = () => {
               <button
                 onClick={() => setShowColumnModal(false)}
                 className="text-gray-400 hover:text-gray-600"
+                aria-label="Close edit columns modal"
               >
                 <Close32Icon size={20} />
               </button>
