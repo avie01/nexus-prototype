@@ -767,8 +767,8 @@ const DashboardHomePage = () => {
               onChange={(e) => setSearchValue(e.target.value)}
               className="w-full px-3 focus:outline-none hover:bg-[#E8E8E8] hover:border-[#3560C1] active:bg-[#E8E8E8] active:border-[#3560C1] transition-all"
               style={{ 
-                border: '2px solid transparent',
-                borderBottom: '2px solid #ACACAC', 
+                border: '1px solid transparent',
+                borderBottom: '1px solid #ACACAC', 
                 background: '#F5F5F5', 
                 height: '44px', 
                 borderRadius: '0px',
@@ -780,11 +780,11 @@ const DashboardHomePage = () => {
                 lineHeight: '24px'
               }}
               onFocus={(e) => {
-                e.target.style.borderBottom = '2px solid #3560C1';
+                e.target.style.borderBottom = '1px solid #3560C1';
                 e.target.style.background = '#E8E8E8';
               }}
               onBlur={(e) => {
-                e.target.style.borderBottom = '2px solid #ACACAC';
+                e.target.style.borderBottom = '1px solid #ACACAC';
                 e.target.style.background = '#F5F5F5';
               }}
             />

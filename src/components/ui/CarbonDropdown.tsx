@@ -259,8 +259,8 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
         <div
           className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} transition-all`}
           style={{
-            border: '2px solid transparent',
-            borderBottom: `2px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
+            border: '1px solid transparent',
+            borderBottom: `1px solid ${invalid ? '#DA1E28' : '#ACACAC'}`,
             background: isOpen ? '#E8E8E8' : '#F5F5F5',
             height: '44px',
             borderRadius: '0px'
@@ -280,15 +280,15 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
           }}
           onMouseEnter={(e) => {
             if (!disabled && !isOpen) {
-              e.currentTarget.style.border = '2px solid transparent';
-              e.currentTarget.style.borderBottom = '2px solid #3560C1';
+              e.currentTarget.style.border = '1px solid transparent';
+              e.currentTarget.style.borderBottom = '1px solid #3560C1';
               e.currentTarget.style.background = '#E8E8E8';
             }
           }}
           onMouseLeave={(e) => {
             if (!disabled && !isOpen) {
-              e.currentTarget.style.border = '2px solid transparent';
-              e.currentTarget.style.borderBottom = `2px solid ${invalid ? '#DA1E28' : '#ACACAC'}`;
+              e.currentTarget.style.border = '1px solid transparent';
+              e.currentTarget.style.borderBottom = `1px solid ${invalid ? '#DA1E28' : '#ACACAC'}`;
               e.currentTarget.style.background = '#F5F5F5';
             }
           }}
