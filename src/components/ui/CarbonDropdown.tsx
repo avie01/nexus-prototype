@@ -301,14 +301,16 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Type to filter..."
-                className="w-full bg-transparent outline-none"
+                className="w-full bg-transparent outline-none border-none"
                 style={{
                   color: '#32373F',
                   fontFamily: 'Noto Sans',
                   fontSize: '14px',
                   fontStyle: 'normal',
                   fontWeight: '400',
-                  lineHeight: '24px'
+                  lineHeight: '24px',
+                  border: 'none',
+                  boxShadow: 'none'
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Escape') {
