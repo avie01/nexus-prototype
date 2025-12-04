@@ -780,12 +780,30 @@ const DashboardHomePage = () => {
                 lineHeight: '24px'
               }}
               onFocus={(e) => {
+                e.target.style.border = '1px solid transparent';
                 e.target.style.borderBottom = '1px solid #3560C1';
                 e.target.style.background = '#E8E8E8';
               }}
               onBlur={(e) => {
+                e.target.style.border = '1px solid transparent';
                 e.target.style.borderBottom = '1px solid #ACACAC';
                 e.target.style.background = '#F5F5F5';
+              }}
+              onMouseEnter={(e) => {
+                const input = e.currentTarget;
+                if (input !== document.activeElement) {
+                  input.style.border = '1px solid transparent';
+                  input.style.borderBottom = '1px solid #3560C1';
+                  input.style.background = '#E8E8E8';
+                }
+              }}
+              onMouseLeave={(e) => {
+                const input = e.currentTarget;
+                if (input !== document.activeElement) {
+                  input.style.border = '1px solid transparent';
+                  input.style.borderBottom = '1px solid #ACACAC';
+                  input.style.background = '#F5F5F5';
+                }
               }}
             />
           </div>
