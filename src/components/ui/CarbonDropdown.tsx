@@ -328,29 +328,20 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
               onClick={handleClear}
               className="flex items-center justify-center rounded transition-all"
               style={{
-                width: '20px',
-                height: '20px',
+                width: '44px',
+                height: '44px',
                 padding: '0',
                 border: 'none',
                 background: 'transparent',
-                marginRight: '4px'
+                marginRight: '4px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.width = '44px';
-                e.currentTarget.style.height = '44px';
-                e.currentTarget.style.display = 'flex';
-                e.currentTarget.style.justifyContent = 'center';
-                e.currentTarget.style.alignItems = 'center';
-                e.currentTarget.style.gap = '10px';
                 e.currentTarget.style.background = 'rgba(0, 0, 0, 0.05)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.width = '20px';
-                e.currentTarget.style.height = '20px';
-                e.currentTarget.style.display = 'flex';
-                e.currentTarget.style.justifyContent = 'center';
-                e.currentTarget.style.alignItems = 'center';
-                e.currentTarget.style.gap = '0';
                 e.currentTarget.style.background = 'transparent';
               }}
               aria-label="Clear selection"
