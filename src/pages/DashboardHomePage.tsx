@@ -36,7 +36,7 @@ const DashboardHomePage = () => {
   const [searchValue, setSearchValue] = useState('');
   const [objectTypesValue, setObjectTypesValue] = useState('');
   const [usersGroupsValue, setUsersGroupsValue] = useState('');
-  const [classificationValue, setClassificationValue] = useState('');
+  const [classificationValues, setClassificationValues] = useState<string[]>([]);
 
 
   const sampleData = [
@@ -596,8 +596,8 @@ const DashboardHomePage = () => {
       }
     }
     
-    // Filter by Classification
-    if (classificationValue) {
+    // Filter by Classifications (multiple)
+    if (classificationValues.length > 0) {
       const classificationMap: { [key: string]: string } = {
         'unofficial': 'Unofficial',
         'official': 'Official',
@@ -607,9 +607,9 @@ const DashboardHomePage = () => {
         'top-secret': 'Top Secret'
       };
       
-      const selectedClassification = classificationMap[classificationValue];
-      if (selectedClassification) {
-        filtered = filtered.filter(item => item.classification === selectedClassification);
+      const selectedClassifications = classificationValues.map(value => classificationMap[value]).filter(Boolean);
+      if (selectedClassifications.length > 0) {
+        filtered = filtered.filter(item => selectedClassifications.includes(item.classification));
       }
     }
     
@@ -641,7 +641,7 @@ const DashboardHomePage = () => {
     }
     
     setFilteredData(filtered);
-  }, [usersGroupsValue, classificationValue, selectedPrivileges]);
+  }, [usersGroupsValue, classificationValues, selectedPrivileges]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -777,16 +777,19 @@ const DashboardHomePage = () => {
                 fontSize: '14px',
                 fontStyle: 'normal',
                 fontWeight: '400',
-                lineHeight: '24px'
+                lineHeight: '24px',
+                outline: 'none'
               }}
               onFocus={(e) => {
-                e.target.style.border = '2px solid #3560C1';
-                e.target.style.borderBottom = '2px solid #3560C1';
+                e.target.style.border = '1px solid transparent';
+                e.target.style.borderBottom = '1px solid transparent';
+                e.target.style.boxShadow = 'inset 0 0 0 2px #3560C1';
                 e.target.style.background = '#E8E8E8';
               }}
               onBlur={(e) => {
                 e.target.style.border = '1px solid transparent';
                 e.target.style.borderBottom = '1px solid #ACACAC';
+                e.target.style.boxShadow = 'none';
                 e.target.style.background = '#F5F5F5';
               }}
               onMouseEnter={(e) => {
@@ -938,8 +941,9 @@ const DashboardHomePage = () => {
                 { value: 'secret', label: 'Secret' },
                 { value: 'top-secret', label: 'Top Secret' }
               ]}
-              value={classificationValue}
-              onChange={setClassificationValue}
+              multiple={true}
+              values={classificationValues}
+              onMultiChange={setClassificationValues}
               showAsChips={true}
             />
           </div>

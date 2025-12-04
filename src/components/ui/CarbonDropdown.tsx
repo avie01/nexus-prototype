@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Badge } from './Badge';
-import { CheckboxCheckedFilled32Icon, Checkbox32Icon, Close32Icon } from '../icons';
+import { CheckboxCheckedFilled32Icon, Checkbox32Icon, Close32Icon, ChevronUp32Icon } from '../icons';
 
 interface DropdownOption {
   value: string;
@@ -293,7 +293,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
             }
           }}
         >
-          <div className="flex-1 flex items-center">
+          <div className="flex-1 flex items-center" style={{ border: 'none', outline: 'none' }}>
             {isOpen ? (
               <input
                 ref={inputRef}
@@ -301,7 +301,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Type to filter..."
-                className="w-full bg-transparent outline-none border-none"
+                className="w-full bg-transparent outline-none border-none dropdown-filter-input"
                 style={{
                   color: '#32373F',
                   fontFamily: 'Noto Sans',
@@ -310,7 +310,8 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                   fontWeight: '400',
                   lineHeight: '24px',
                   border: 'none',
-                  boxShadow: 'none'
+                  boxShadow: 'none',
+                  outline: 'none'
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Escape') {
@@ -350,18 +351,20 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
               <Close32Icon size={20} color="#525965" />
             </button>
           )}
-          <div 
-            style={{
-              width: '20px',
-              height: '20px',
-              backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23161616'%3e%3cpath d='M8 ${isOpen ? '5' : '11'}L3 ${isOpen ? '10' : '6'}l.7-.7L8 ${isOpen ? '6.4' : '9.6'}l4.3-4.3L13 ${isOpen ? '10' : '6'}z'/%3e%3c/svg%3e")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              backgroundSize: '20px',
-              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.2s ease'
-            }}
-          />
+          {isOpen ? (
+            <ChevronUp32Icon size={20} color="#161616" />
+          ) : (
+            <div 
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23161616'%3e%3cpath d='M8 11L3 6l.7-.7L8 9.6l4.3-4.3L13 6z'/%3e%3c/svg%3e")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: '20px'
+              }}
+            />
+          )}
         </div>
 
         {isOpen && (
