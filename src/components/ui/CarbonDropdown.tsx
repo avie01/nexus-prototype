@@ -150,7 +150,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
       return (
         <div className="flex items-center w-full">
           {SelectedIcon && (
-            <SelectedIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+            <SelectedIcon size={20} color="#276BB0" className="mr-2 flex-shrink-0" />
           )}
           <Badge variant={getClassificationVariant(selectedOption.label)}>
             {selectedOption.label}
@@ -176,7 +176,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
     return (
       <div className="flex items-center w-full">
         {SelectedIcon && (
-          <SelectedIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+          <SelectedIcon size={20} color="#276BB0" className="mr-2 flex-shrink-0" />
         )}
         <span 
           style={isPlaceholder ? {
@@ -322,26 +322,29 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
           {hasValue && !disabled && (
             <button
               onClick={handleClear}
-              className="flex items-center justify-center mr-2 hover:bg-gray-100 rounded"
+              className="flex items-center justify-center hover:bg-gray-100 rounded"
               style={{
-                width: '16px',
-                height: '16px',
+                width: '20px',
+                height: '20px',
                 padding: '0',
                 border: 'none',
-                background: 'transparent'
+                background: 'transparent',
+                marginRight: '4px'
               }}
+              aria-label="Clear selection"
+              tabIndex={-1}
             >
-              <Close32Icon size={16} color="#525965" />
+              <Close32Icon size={20} color="#525965" />
             </button>
           )}
           <div 
             style={{
-              width: '1rem',
-              height: '1rem',
+              width: '20px',
+              height: '20px',
               backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23161616'%3e%3cpath d='M8 ${isOpen ? '5' : '11'}L3 ${isOpen ? '10' : '6'}l.7-.7L8 ${isOpen ? '6.4' : '9.6'}l4.3-4.3L13 ${isOpen ? '10' : '6'}z'/%3e%3c/svg%3e")`,
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
-              backgroundSize: '1rem',
+              backgroundSize: '20px',
               transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
               transition: 'transform 0.2s ease'
             }}
@@ -401,13 +404,13 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                         >
                           {multiple && (
                             isSelected ? (
-                              <CheckboxCheckedFilled32Icon size={16} color="#3560C1" className="mr-2 flex-shrink-0" />
+                              <CheckboxCheckedFilled32Icon size={20} color="#3560C1" className="mr-2 flex-shrink-0" />
                             ) : (
-                              <Checkbox32Icon size={16} color="#525965" className="mr-2 flex-shrink-0" />
+                              <Checkbox32Icon size={20} color="#525965" className="mr-2 flex-shrink-0" />
                             )
                           )}
                           {GroupIcon && (
-                            <GroupIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+                            <GroupIcon size={20} color="#276BB0" className="mr-2 flex-shrink-0" />
                           )}
                           {showAsChips ? (
                             <Badge variant={getClassificationVariant(option.label)}>
@@ -475,7 +478,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                       )
                     )}
                     {OptionIcon && (
-                      <OptionIcon size={16} color="#276BB0" className="mr-2 flex-shrink-0" />
+                      <OptionIcon size={20} color="#276BB0" className="mr-2 flex-shrink-0" />
                     )}
                     {showAsChips ? (
                       <Badge variant={getClassificationVariant(option.label)}>
