@@ -8,7 +8,7 @@ import { Badge } from '../components/ui/Badge';
 const DashboardHomePage = () => {
   const [selectedPrivileges, setSelectedPrivileges] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showColumnModal, setShowColumnModal] = useState(false);
   const [activeActionMenu, setActiveActionMenu] = useState<number | null>(null);
   
@@ -32,7 +32,7 @@ const DashboardHomePage = () => {
   const itemsPerPage = 10;
   
   // Form state
-  const [typeValue, setTypeValue] = useState('');
+  const [typeValues, setTypeValues] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [objectTypesValue, setObjectTypesValue] = useState('');
   const [usersGroupsValue, setUsersGroupsValue] = useState('');
@@ -729,8 +729,9 @@ const DashboardHomePage = () => {
                 { value: 'parent', label: 'Parent', icon: FolderIcon },
                 { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
               ]}
-              value={typeValue}
-              onChange={setTypeValue}
+              multiple={true}
+              values={typeValues}
+              onMultiChange={setTypeValues}
             />
           </div>
           <div>
@@ -760,7 +761,14 @@ const DashboardHomePage = () => {
           <div className="flex flex-col">
             <div className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>&nbsp;</div>
             <button
-              onClick={() => setShowTable(true)}
+              onClick={() => {
+                setIsLoading(true);
+                setShowTable(true);
+                // Simulate loading delay
+                setTimeout(() => {
+                  setIsLoading(false);
+                }, 1500);
+              }}
               className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{
                 display: 'flex',
@@ -792,8 +800,7 @@ const DashboardHomePage = () => {
                 { value: 'documents', label: 'Documents', icon: DocumentBlank32Icon },
                 { value: 'files', label: 'Files', icon: Folders32Icon },
                 { value: 'file-or-folders', label: 'File or Folders', icon: FolderIcon },
-                { value: 'folders', label: 'Folders', icon: FolderIcon },
-                { value: 'physical-documents', label: 'Physical documents', icon: Document32Icon }
+                { value: 'folders', label: 'Folders', icon: FolderIcon }
               ]}
               value={objectTypesValue}
               onChange={setObjectTypesValue}
