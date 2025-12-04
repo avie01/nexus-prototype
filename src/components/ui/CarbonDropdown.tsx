@@ -257,13 +257,13 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
       
       <div className="relative">
         <div
-          className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} hover:bg-[#E8E8E8] hover:border-[#3560C1] active:bg-[#E8E8E8] active:border-[#3560C1] transition-all`}
+          className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} transition-all`}
           style={{
-            border: '2px solid transparent',
+            border: isOpen ? '2px solid #3560C1' : '2px solid transparent',
             borderBottom: `2px solid ${invalid ? '#DA1E28' : isOpen ? '#3560C1' : '#ACACAC'}`,
             background: isOpen ? '#E8E8E8' : '#F5F5F5',
             height: '44px',
-            borderRadius: '0px'
+            borderRadius: isOpen ? '4px 4px 0 0' : '0px'
           }}
           onClick={handleToggle}
           role="combobox"
@@ -279,13 +279,15 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
             }
           }}
           onMouseEnter={(e) => {
-            if (!disabled) {
+            if (!disabled && !isOpen) {
+              e.currentTarget.style.border = '2px solid transparent';
               e.currentTarget.style.borderBottom = '2px solid #3560C1';
               e.currentTarget.style.background = '#E8E8E8';
             }
           }}
           onMouseLeave={(e) => {
             if (!disabled && !isOpen) {
+              e.currentTarget.style.border = '2px solid transparent';
               e.currentTarget.style.borderBottom = `2px solid ${invalid ? '#DA1E28' : '#ACACAC'}`;
               e.currentTarget.style.background = '#F5F5F5';
             }
@@ -353,15 +355,17 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
 
         {isOpen && (
           <div 
-            className="absolute left-0 right-0 z-50 shadow-lg border"
+            className="absolute left-0 right-0 z-50"
             style={{
               backgroundColor: '#ffffff',
-              borderColor: '#d1d1d1',
-              borderRadius: '4px',
+              border: '2px solid #3560C1',
+              borderTop: 'none',
+              borderRadius: '0 0 4px 4px',
               top: '100%',
-              marginTop: '2px',
+              marginTop: '-2px',
               maxHeight: '200px',
-              overflowY: 'auto'
+              overflowY: 'auto',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
             }}
           >
             {groups.length > 0 ? (
