@@ -5,7 +5,7 @@ import { Badge } from '../components/ui/Badge';
 
 
 
-const DashboardHomePage = () => {
+const HomePage = () => {
   const [selectedPrivileges, setSelectedPrivileges] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -1293,4 +1293,4 @@ const DashboardHomePage = () => {
   );
 };
 
-export default DashboardHomePage; 
+export default HomePage;

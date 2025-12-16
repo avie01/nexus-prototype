@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: 8000,
     allowedHosts: ['34cb-116-204-144-171.ngrok-free.app']
   }
 }) 
