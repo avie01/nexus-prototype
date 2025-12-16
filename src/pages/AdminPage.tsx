@@ -1,8 +1,21 @@
 import { useState } from 'react';
 import { FileExportIcon, ChevronDownIcon, EditIcon } from '../components/icons';
 
+interface AccordionStatesType {
+  sharepoint: boolean;
+  s3bucket: boolean;
+  googledrive: boolean;
+  onedrive: boolean;
+  dropbox: boolean;
+  azureblob: boolean;
+  ftp: boolean;
+  box: boolean;
+  salesforce: boolean;
+  [key: string]: boolean;
+}
+
 const AdminPage = () => {
-  const [accordionStates, setAccordionStates] = useState({
+  const [accordionStates, setAccordionStates] = useState<AccordionStatesType>({
     sharepoint: true,
     s3bucket: false,
     googledrive: false,
@@ -19,7 +32,7 @@ const AdminPage = () => {
   const toggleAccordion = (key: string) => {
     setAccordionStates(prev => ({
       ...prev,
-      [key]: !prev[key as keyof typeof prev]
+      [key]: !prev[key]
     }));
   };
 
@@ -67,7 +80,7 @@ const AdminPage = () => {
       </div>
       <div style={{ backgroundColor: '#ffffff', borderRadius: '0px 0px 16px 16px' }}>
         {/* New Templates */}
-        {newTemplates.map((template, index) => (
+        {newTemplates.map((template) => (
           <div key={template.id}>
             <div className="border-b border-gray-200">
               <button
