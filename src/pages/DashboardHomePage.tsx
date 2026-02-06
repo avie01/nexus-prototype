@@ -742,73 +742,74 @@ const DashboardHomePage = () => {
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">Last privilege update: 14/12/2017 4:56 PM</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2.85fr_0.15fr] gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mt-4">
           <div>
-            <CarbonDropdown
-              id="type"
-              label="Hierarchy Depth"
-              placeholder="Select type..."
-              options={[
-                { value: 'parent', label: 'Parent', icon: FolderIcon },
-                { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
-              ]}
-              multiple={true}
-              values={typeValues}
-              onMultiChange={setTypeValues}
-            />
-          </div>
-          <div>
-            <label htmlFor="search" className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Privilege Container</label>
-            <input
-              type="text"
-              id="search"
-              placeholder="Search..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              className="w-full px-3 focus:outline-none hover:bg-[#E8E8E8] hover:border-[#3560C1] active:bg-[#E8E8E8] active:border-[#3560C1] transition-all"
-              style={{ 
-                border: '1px solid transparent',
-                borderBottom: '1px solid #ACACAC', 
-                background: '#F5F5F5', 
-                height: '44px', 
-                borderRadius: '0px',
-                color: '#32373F',
-                fontFamily: 'Noto Sans',
-                fontSize: '14px',
-                fontStyle: 'normal',
-                fontWeight: '400',
-                lineHeight: '24px',
-                outline: 'none'
-              }}
-              onFocus={(e) => {
-                e.target.style.border = '1px solid transparent';
-                e.target.style.borderBottom = '1px solid transparent';
-                e.target.style.boxShadow = 'inset 0 0 0 2px #3560C1';
-                e.target.style.background = '#E8E8E8';
-              }}
-              onBlur={(e) => {
-                e.target.style.border = '1px solid transparent';
-                e.target.style.borderBottom = '1px solid #ACACAC';
-                e.target.style.boxShadow = 'none';
-                e.target.style.background = '#F5F5F5';
-              }}
-              onMouseEnter={(e) => {
-                const input = e.currentTarget;
-                if (input !== document.activeElement) {
-                  input.style.border = '1px solid transparent';
-                  input.style.borderBottom = '1px solid #3560C1';
-                  input.style.background = '#E8E8E8';
-                }
-              }}
-              onMouseLeave={(e) => {
-                const input = e.currentTarget;
-                if (input !== document.activeElement) {
-                  input.style.border = '1px solid transparent';
-                  input.style.borderBottom = '1px solid #ACACAC';
-                  input.style.background = '#F5F5F5';
-                }
-              }}
-            />
+            <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Privilege Container</label>
+            <div className="flex gap-0">
+              <div className="w-[200px] flex-shrink-0">
+                <CarbonDropdown
+                  id="type"
+                  placeholder="Hierarchy depth..."
+                  options={[
+                    { value: 'parent', label: 'Parent', icon: FolderIcon },
+                    { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
+                  ]}
+                  multiple={true}
+                  values={typeValues}
+                  onMultiChange={setTypeValues}
+                />
+              </div>
+              <input
+                type="text"
+                id="search"
+                placeholder="Search..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="flex-1 px-3 focus:outline-none hover:bg-[#E8E8E8] hover:border-[#3560C1] active:bg-[#E8E8E8] active:border-[#3560C1] transition-all"
+                style={{
+                  border: '1px solid transparent',
+                  borderBottom: '1px solid #ACACAC',
+                  background: '#F5F5F5',
+                  height: '44px',
+                  borderRadius: '0px',
+                  color: '#32373F',
+                  fontFamily: 'Noto Sans',
+                  fontSize: '14px',
+                  fontStyle: 'normal',
+                  fontWeight: '400',
+                  lineHeight: '24px',
+                  outline: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.border = '1px solid transparent';
+                  e.target.style.borderBottom = '1px solid transparent';
+                  e.target.style.boxShadow = 'inset 0 0 0 2px #3560C1';
+                  e.target.style.background = '#E8E8E8';
+                }}
+                onBlur={(e) => {
+                  e.target.style.border = '1px solid transparent';
+                  e.target.style.borderBottom = '1px solid #ACACAC';
+                  e.target.style.boxShadow = 'none';
+                  e.target.style.background = '#F5F5F5';
+                }}
+                onMouseEnter={(e) => {
+                  const input = e.currentTarget;
+                  if (input !== document.activeElement) {
+                    input.style.border = '1px solid transparent';
+                    input.style.borderBottom = '1px solid #3560C1';
+                    input.style.background = '#E8E8E8';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const input = e.currentTarget;
+                  if (input !== document.activeElement) {
+                    input.style.border = '1px solid transparent';
+                    input.style.borderBottom = '1px solid #ACACAC';
+                    input.style.background = '#F5F5F5';
+                  }
+                }}
+              />
+            </div>
           </div>
           <div className="md:col-auto">
             <div className="hidden md:block mb-1" style={{ height: '21px' }}>&nbsp;</div>
@@ -933,6 +934,10 @@ const DashboardHomePage = () => {
               id="classification"
               label="Classification"
               placeholder="Select classification..."
+              tabs={[
+                { id: 'direct', label: 'Direct' },
+                { id: 'inherited', label: 'Inherited' }
+              ]}
               options={[
                 { value: 'unofficial', label: 'Unofficial' },
                 { value: 'official', label: 'Official' },

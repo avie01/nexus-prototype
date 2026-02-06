@@ -16,9 +16,14 @@ interface DropdownGroup {
   icon?: React.ComponentType<any>;
 }
 
-interface CarbonDropdownProps {
+interface DropdownTab {
   id: string;
   label: string;
+}
+
+interface CarbonDropdownProps {
+  id: string;
+  label?: string;
   placeholder?: string;
   options?: DropdownOption[];
   groups?: DropdownGroup[];
@@ -32,6 +37,7 @@ interface CarbonDropdownProps {
   onMultiChange?: (values: string[]) => void;
   showAsChips?: boolean;
   onClear?: () => void;
+  tabs?: DropdownTab[];
 }
 
 const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
@@ -49,10 +55,12 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
   values = [],
   onMultiChange,
   showAsChips = false,
-  onClear
+  onClear,
+  tabs
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState(tabs?.[0]?.id || '');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -120,26 +128,61 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
   };
 
   const handleOptionSelect = (optionValue: string) => {
+    // If tabs are enabled, prefix the value with the active tab id
+    const finalValue = tabs ? `${activeTab}:${optionValue}` : optionValue;
+
     if (multiple) {
-      const newValues = values.includes(optionValue)
-        ? values.filter(v => v !== optionValue)
-        : [...values, optionValue];
+      // For tabbed multi-select, check if this exact tab:value combo exists
+      const newValues = values.includes(finalValue)
+        ? values.filter(v => v !== finalValue)
+        : [...values, finalValue];
       onMultiChange?.(newValues);
     } else {
-      onChange?.(optionValue);
+      onChange?.(finalValue);
       setIsOpen(false);
       setSearchTerm('');
     }
   };
 
+  // Helper to parse tabbed values
+  const parseTabValue = (val: string) => {
+    if (tabs && val.includes(':')) {
+      const [tabId, ...rest] = val.split(':');
+      const optionValue = rest.join(':');
+      const tab = tabs.find(t => t.id === tabId);
+      return { tabId, tabLabel: tab?.label || tabId, optionValue };
+    }
+    return { tabId: '', tabLabel: '', optionValue: val };
+  };
+
   const getDisplayText = () => {
     if (multiple) {
-      if (selectedOptions.length === 0) return placeholder;
+      if (selectedOptions.length === 0 && (!tabs || values.length === 0)) return placeholder;
+
+      if (tabs) {
+        // For tabbed multi-select, parse values to get tab labels
+        const displayValues = values.slice(0, 3).map(val => {
+          const { tabLabel, optionValue } = parseTabValue(val);
+          const opt = allOptions.find(o => o.value === optionValue);
+          return tabLabel ? `${tabLabel}: ${opt?.label || optionValue}` : (opt?.label || optionValue);
+        });
+        const remainingCount = values.length - 3;
+        const text = displayValues.join(', ');
+        return remainingCount > 0 ? `${text} +${remainingCount} more` : text;
+      }
+
       const displayOptions = selectedOptions.slice(0, 3);
       const remainingCount = selectedOptions.length - 3;
       const text = displayOptions.map(opt => opt.label).join(', ');
       return remainingCount > 0 ? `${text} +${remainingCount} more` : text;
     }
+
+    if (tabs && value) {
+      const { tabLabel, optionValue } = parseTabValue(value);
+      const opt = allOptions.find(o => o.value === optionValue);
+      return tabLabel ? `${tabLabel}: ${opt?.label || optionValue}` : (opt?.label || optionValue);
+    }
+
     return selectedOption?.label || placeholder;
   };
 
@@ -240,21 +283,23 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <label 
-        id={`${id}-label`}
-        htmlFor={id} 
-        className="block mb-1" 
-        style={{ 
-          color: '#32373F', 
-          fontFamily: 'Noto Sans', 
-          fontSize: '14px', 
-          fontWeight: '600', 
-          lineHeight: '21px' 
-        }}
-      >
-        {label}
-      </label>
-      
+      {label && (
+        <label
+          id={`${id}-label`}
+          htmlFor={id}
+          className="block mb-1"
+          style={{
+            color: '#32373F',
+            fontFamily: 'Noto Sans',
+            fontSize: '14px',
+            fontWeight: '600',
+            lineHeight: '21px'
+          }}
+        >
+          {label}
+        </label>
+      )}
+
       <div className="relative">
         <div
           className={`w-full px-3 flex items-center justify-between cursor-pointer ${disabled ? 'cursor-not-allowed opacity-50' : ''} transition-all`}
@@ -368,7 +413,7 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
         </div>
 
         {isOpen && (
-          <div 
+          <div
             className="absolute left-0 right-0 z-50"
             style={{
               backgroundColor: '#ffffff',
@@ -376,16 +421,61 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
               borderRadius: '4px',
               top: '100%',
               marginTop: '2px',
-              maxHeight: '200px',
+              maxHeight: tabs ? '250px' : '200px',
               overflowY: 'auto',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
             }}
           >
+            {tabs && tabs.length > 0 && (
+              <div
+                className="flex border-b sticky top-0 bg-white z-10"
+                style={{ borderColor: '#e0e0e0' }}
+              >
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTab(tab.id);
+                    }}
+                    className="flex-1 px-4 py-2 text-sm font-medium transition-colors"
+                    style={{
+                      color: activeTab === tab.id ? '#3560C1' : '#525965',
+                      borderBottom: activeTab === tab.id ? '2px solid #3560C1' : '2px solid transparent',
+                      background: activeTab === tab.id ? '#f0f5ff' : 'transparent',
+                      fontFamily: 'Noto Sans',
+                      fontSize: '14px',
+                      fontWeight: activeTab === tab.id ? '600' : '400'
+                    }}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            )}
             {groups.length > 0 ? (
-              groups.map((group, groupIndex) => (
+              groups.map((group, groupIndex) => {
+                const enabledOptions = group.options.filter(opt => !opt.disabled);
+                const allGroupSelected = multiple && enabledOptions.length > 0 && enabledOptions.every(opt => values.includes(opt.value));
+                const handleSelectAllGroup = (e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  if (!multiple || !onMultiChange) return;
+                  if (allGroupSelected) {
+                    // Deselect all from this group
+                    const newValues = values.filter(v => !enabledOptions.some(opt => opt.value === v));
+                    onMultiChange(newValues);
+                  } else {
+                    // Select all enabled options from this group
+                    const groupValues = enabledOptions.map(opt => opt.value);
+                    const newValues = [...new Set([...values, ...groupValues])];
+                    onMultiChange(newValues);
+                  }
+                };
+
+                return (
                 <div key={groupIndex}>
-                  <div 
-                    className="px-3 py-2 border-b"
+                  <div
+                    className="px-3 py-2 border-b flex items-center cursor-pointer"
                     style={{
                       backgroundColor: '#f4f4f4',
                       borderColor: '#e0e0e0',
@@ -396,8 +486,16 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                       textTransform: 'uppercase',
                       letterSpacing: '0.32px'
                     }}
+                    onClick={multiple && enabledOptions.length > 0 ? handleSelectAllGroup : undefined}
                   >
-                    {group.label}
+                    {multiple && enabledOptions.length > 0 && (
+                      allGroupSelected ? (
+                        <CheckboxCheckedFilled32Icon size={20} color="#3560C1" className="mr-2 flex-shrink-0" />
+                      ) : (
+                        <Checkbox32Icon size={20} color="#525965" className="mr-2 flex-shrink-0" />
+                      )
+                    )}
+                    <span>{group.label}</span>
                   </div>
                   {group.options
                     .filter(option => option.label.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -467,10 +565,15 @@ const CarbonDropdown: React.FC<CarbonDropdownProps> = ({
                       );
                     })}
                 </div>
-              ))
+                );
+              })
             ) : (
               filteredOptions.map((option) => {
-                const isSelected = multiple ? values.includes(option.value) : value === option.value;
+                // For tabbed dropdowns, check if the tab:value combo is selected
+                const tabbedValue = tabs ? `${activeTab}:${option.value}` : option.value;
+                const isSelected = multiple
+                  ? values.includes(tabbedValue)
+                  : (tabs ? value === tabbedValue : value === option.value);
                 const isDisabled = option.disabled;
                 const OptionIcon = option.icon;
                 
