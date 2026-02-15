@@ -742,23 +742,40 @@ const HomePage = () => {
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">Last privilege update: 14/12/2017 4:56 PM</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           <div>
-            <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Privilege Container</label>
-            <div className="flex gap-0">
-              <div className="w-[200px] flex-shrink-0">
-                <CarbonDropdown
-                  id="type"
-                  placeholder="Hierarchy depth..."
-                  options={[
-                    { value: 'parent', label: 'Parent', icon: FolderIcon },
-                    { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
-                  ]}
-                  multiple={true}
-                  values={typeValues}
-                  onMultiChange={setTypeValues}
-                />
-              </div>
+            <CarbonDropdown
+              id="objectTypes"
+              label="Object types"
+              placeholder="Select object type..."
+              options={[
+                { value: 'all-objects', label: 'All objects', icon: Search32Icon },
+                { value: 'documents', label: 'Documents', icon: DocumentBlank32Icon },
+                { value: 'files', label: 'Files', icon: Folders32Icon },
+                { value: 'file-or-folders', label: 'File or Folders', icon: FolderIcon },
+                { value: 'folders', label: 'Folders', icon: FolderIcon }
+              ]}
+              value={objectTypesValue}
+              onChange={setObjectTypesValue}
+            />
+          </div>
+          <div>
+            <CarbonDropdown
+              id="type"
+              label="Privilege Container"
+              placeholder="Hierarchy depth..."
+              options={[
+                { value: 'parent', label: 'Parent', icon: FolderIcon },
+                { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
+              ]}
+              multiple={true}
+              values={typeValues}
+              onMultiChange={setTypeValues}
+            />
+          </div>
+          <div>
+            <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Search</label>
+            <div className="flex gap-4">
               <input
                 type="text"
                 id="search"
@@ -809,57 +826,36 @@ const HomePage = () => {
                   }
                 }}
               />
+              <button
+                onClick={() => {
+                  setIsLoading(true);
+                  setShowTable(true);
+                  // Simulate loading delay
+                  setTimeout(() => {
+                    setIsLoading(false);
+                  }, 1500);
+                }}
+                className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label="Search privilege reporting data"
+                style={{
+                  display: 'flex',
+                  height: '44px',
+                  padding: '10px 14px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '6px',
+                  borderRadius: '0px',
+                  background: '#3560C1',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                Search
+              </button>
             </div>
           </div>
-          <div className="md:col-auto">
-            <div className="hidden md:block mb-1" style={{ height: '21px' }}>&nbsp;</div>
-            <button
-              onClick={() => {
-                setIsLoading(true);
-                setShowTable(true);
-                // Simulate loading delay
-                setTimeout(() => {
-                  setIsLoading(false);
-                }, 1500);
-              }}
-              className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-auto"
-              aria-label="Search privilege reporting data"
-              style={{
-                display: 'flex',
-                height: '44px',
-                maxWidth: '77px',
-                padding: '10px 14px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '6px',
-                alignSelf: 'stretch',
-                borderRadius: '2px',
-                background: '#3560C1',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              Search
-            </button>
-          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          <div>
-            <CarbonDropdown
-              id="objectTypes"
-              label="Object types"
-              placeholder="Select object type..."
-              options={[
-                { value: 'all-objects', label: 'All objects', icon: Search32Icon },
-                { value: 'documents', label: 'Documents', icon: DocumentBlank32Icon },
-                { value: 'files', label: 'Files', icon: Folders32Icon },
-                { value: 'file-or-folders', label: 'File or Folders', icon: FolderIcon },
-                { value: 'folders', label: 'Folders', icon: FolderIcon }
-              ]}
-              value={objectTypesValue}
-              onChange={setObjectTypesValue}
-            />
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           <div>
             <CarbonDropdown
               id="usersGroups"
