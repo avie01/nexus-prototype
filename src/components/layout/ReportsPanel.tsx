@@ -11,6 +11,7 @@ import {
   Folders32Icon,
   FileMultipleIcon,
   Security32Icon,
+  ChartBarIcon,
 } from '../icons';
 
 interface ReportsPanelProps {
@@ -19,6 +20,7 @@ interface ReportsPanelProps {
 
 const ReportsPanel: React.FC<ReportsPanelProps> = ({ width }) => {
   const reportItems = [
+    { to: '/reports/global-overview', label: 'Global Overview', icon: ChartBarIcon },
     { to: '/reports/privilege-reporting', label: 'Privilege reporting', icon: GroupSecurityIcon },
     { to: '/reports/searches-created', label: 'Searches Created', icon: Search32Icon },
     { to: '/reports/emails-saved', label: 'eMails Saved', icon: DocumentBlank32Icon },

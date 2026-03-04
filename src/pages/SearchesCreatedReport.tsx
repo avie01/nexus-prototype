@@ -51,14 +51,14 @@ const SearchesCreatedReport = () => {
   const [searchValue, setSearchValue] = useState('');
 
   const sampleData = [
-    { searchId: 'SCH001', searchName: 'Financial Documents Q4', createdBy: 'John Doe', createdDate: '2024-01-15', lastRun: '2024-03-01', runCount: 45, searchType: 'Saved' },
-    { searchId: 'SCH002', searchName: 'HR Compliance Files', createdBy: 'Jane Smith', createdDate: '2024-01-20', lastRun: '2024-02-28', runCount: 32, searchType: 'Saved' },
-    { searchId: 'SCH003', searchName: 'Project Alpha Docs', createdBy: 'Mike Johnson', createdDate: '2024-02-01', lastRun: '2024-03-02', runCount: 28, searchType: 'Saved' },
-    { searchId: 'SCH004', searchName: 'Legal Contracts 2024', createdBy: 'Sarah Wilson', createdDate: '2024-02-10', lastRun: '2024-02-25', runCount: 15, searchType: 'Saved' },
-    { searchId: 'SCH005', searchName: 'Marketing Assets', createdBy: 'Alex Brown', createdDate: '2024-02-15', lastRun: '2024-03-01', runCount: 67, searchType: 'Saved' },
-    { searchId: 'SCH006', searchName: 'Vendor Invoices', createdBy: 'John Doe', createdDate: '2024-02-20', lastRun: '2024-02-28', runCount: 23, searchType: 'Saved' },
-    { searchId: 'SCH007', searchName: 'Training Materials', createdBy: 'Jane Smith', createdDate: '2024-02-25', lastRun: '2024-03-02', runCount: 12, searchType: 'Saved' },
-    { searchId: 'SCH008', searchName: 'Customer Reports', createdBy: 'Mike Johnson', createdDate: '2024-03-01', lastRun: '2024-03-02', runCount: 8, searchType: 'Saved' },
+    { searchId: 'SCH001', searchName: 'Financial Documents Q4', createdBy: 'John Doe', createdDate: '15/01/2024', lastRun: '01/03/2024', runCount: 45, searchType: 'Saved' },
+    { searchId: 'SCH002', searchName: 'HR Compliance Files', createdBy: 'Jane Smith', createdDate: '20/01/2024', lastRun: '28/02/2024', runCount: 32, searchType: 'Saved' },
+    { searchId: 'SCH003', searchName: 'Project Alpha Docs', createdBy: 'Mike Johnson', createdDate: '01/02/2024', lastRun: '02/03/2024', runCount: 28, searchType: 'Saved' },
+    { searchId: 'SCH004', searchName: 'Legal Contracts 2024', createdBy: 'Sarah Wilson', createdDate: '10/02/2024', lastRun: '25/02/2024', runCount: 15, searchType: 'Saved' },
+    { searchId: 'SCH005', searchName: 'Marketing Assets', createdBy: 'Alex Brown', createdDate: '15/02/2024', lastRun: '01/03/2024', runCount: 67, searchType: 'Saved' },
+    { searchId: 'SCH006', searchName: 'Vendor Invoices', createdBy: 'John Doe', createdDate: '20/02/2024', lastRun: '28/02/2024', runCount: 23, searchType: 'Saved' },
+    { searchId: 'SCH007', searchName: 'Training Materials', createdBy: 'Jane Smith', createdDate: '25/02/2024', lastRun: '02/03/2024', runCount: 12, searchType: 'Saved' },
+    { searchId: 'SCH008', searchName: 'Customer Reports', createdBy: 'Mike Johnson', createdDate: '01/03/2024', lastRun: '02/03/2024', runCount: 8, searchType: 'Saved' },
   ];
 
   const [filteredData, setFilteredData] = useState(sampleData);
@@ -212,15 +212,15 @@ const SearchesCreatedReport = () => {
       </div>
 
       {showTable && (
-        <div className="flex items-center justify-between px-6" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
-          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
+          <ViewToggle view={viewMode} onViewChange={setViewMode} />
           <div className="flex gap-4 items-center">
-            <ViewToggle view={viewMode} onViewChange={setViewMode} />
+            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
             {viewMode === 'table' && (
-              <div className="flex gap-2">
+              <>
                 <button onClick={() => setShowColumnModal(true)} className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Edit columns</button>
                 <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
-              </div>
+              </>
             )}
           </div>
         </div>
@@ -262,7 +262,7 @@ const SearchesCreatedReport = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px]" role="table">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ borderTop: '1px solid #d1d1d1' }}>
                   {columnVisibility.searchId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Search ID</th>}
                   {columnVisibility.searchName && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Search Name</th>}
                   {columnVisibility.createdBy && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Created By</th>}

@@ -51,14 +51,14 @@ const NewVersionsCreatedReport = () => {
   const [searchValue, setSearchValue] = useState('');
 
   const sampleData = [
-    { versionId: 'VER001', documentName: 'Annual Report 2024.pdf', version: '2.0', createdBy: 'John Doe', createdDate: '2024-01-15', auditEvent: 'Document Updated', changeType: 'Major' },
-    { versionId: 'VER002', documentName: 'Project Plan.docx', version: '1.3', createdBy: 'Jane Smith', createdDate: '2024-01-20', auditEvent: 'Content Modified', changeType: 'Minor' },
-    { versionId: 'VER003', documentName: 'Budget Template.xlsx', version: '3.1', createdBy: 'Mike Johnson', createdDate: '2024-02-01', auditEvent: 'Document Updated', changeType: 'Major' },
-    { versionId: 'VER004', documentName: 'Contract Draft.pdf', version: '1.1', createdBy: 'Sarah Wilson', createdDate: '2024-02-10', auditEvent: 'Metadata Changed', changeType: 'Minor' },
-    { versionId: 'VER005', documentName: 'Marketing Plan.pptx', version: '2.2', createdBy: 'Alex Brown', createdDate: '2024-02-15', auditEvent: 'Content Modified', changeType: 'Minor' },
-    { versionId: 'VER006', documentName: 'Policy Document.pdf', version: '4.0', createdBy: 'John Doe', createdDate: '2024-02-20', auditEvent: 'Document Updated', changeType: 'Major' },
-    { versionId: 'VER007', documentName: 'Training Guide.docx', version: '1.5', createdBy: 'Jane Smith', createdDate: '2024-02-25', auditEvent: 'Content Modified', changeType: 'Minor' },
-    { versionId: 'VER008', documentName: 'Specification.pdf', version: '2.1', createdBy: 'Mike Johnson', createdDate: '2024-03-01', auditEvent: 'Document Updated', changeType: 'Major' },
+    { versionId: 'VER001', documentName: 'Annual Report 2024.pdf', version: '2.0', createdBy: 'John Doe', createdDate: '15/01/2024', auditEvent: 'Document Updated', changeType: 'Major' },
+    { versionId: 'VER002', documentName: 'Project Plan.docx', version: '1.3', createdBy: 'Jane Smith', createdDate: '20/01/2024', auditEvent: 'Content Modified', changeType: 'Minor' },
+    { versionId: 'VER003', documentName: 'Budget Template.xlsx', version: '3.1', createdBy: 'Mike Johnson', createdDate: '01/02/2024', auditEvent: 'Document Updated', changeType: 'Major' },
+    { versionId: 'VER004', documentName: 'Contract Draft.pdf', version: '1.1', createdBy: 'Sarah Wilson', createdDate: '10/02/2024', auditEvent: 'Metadata Changed', changeType: 'Minor' },
+    { versionId: 'VER005', documentName: 'Marketing Plan.pptx', version: '2.2', createdBy: 'Alex Brown', createdDate: '15/02/2024', auditEvent: 'Content Modified', changeType: 'Minor' },
+    { versionId: 'VER006', documentName: 'Policy Document.pdf', version: '4.0', createdBy: 'John Doe', createdDate: '20/02/2024', auditEvent: 'Document Updated', changeType: 'Major' },
+    { versionId: 'VER007', documentName: 'Training Guide.docx', version: '1.5', createdBy: 'Jane Smith', createdDate: '25/02/2024', auditEvent: 'Content Modified', changeType: 'Minor' },
+    { versionId: 'VER008', documentName: 'Specification.pdf', version: '2.1', createdBy: 'Mike Johnson', createdDate: '01/03/2024', auditEvent: 'Document Updated', changeType: 'Major' },
   ];
 
   const [filteredData, setFilteredData] = useState(sampleData);
@@ -203,10 +203,10 @@ const NewVersionsCreatedReport = () => {
         </div>
       </div>
       {showTable && (
-        <div className="flex items-center justify-between px-6" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
-          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
-          <div className="flex gap-2 items-center">
-            <ViewToggle view={view} onViewChange={setView} />
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
+          <ViewToggle view={view} onViewChange={setView} />
+          <div className="flex gap-4 items-center">
+            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
             <button onClick={() => setShowColumnModal(true)} className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Edit columns</button>
             <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
           </div>
@@ -247,7 +247,7 @@ const NewVersionsCreatedReport = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px]" role="table">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ borderTop: '1px solid #d1d1d1' }}>
                   {columnVisibility.versionId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Version ID</th>}
                   {columnVisibility.documentName && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Document Name</th>}
                   {columnVisibility.version && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Version</th>}

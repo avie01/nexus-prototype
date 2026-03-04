@@ -24,16 +24,16 @@ const DocumentsCreatedReport = () => {
   const [searchValue, setSearchValue] = useState('');
 
   const sampleData = [
-    { documentId: 'DOC001', name: 'Annual Report 2024.pdf', createdBy: 'John Doe', createdDate: '2024-01-15', folderType: 'Global', folderPath: '/Reports/Annual', docType: 'Document', size: '2.4 MB' },
-    { documentId: 'DOC002', name: 'Meeting Notes.docx', createdBy: 'Jane Smith', createdDate: '2024-01-20', folderType: 'Home', folderPath: '/Jane/Notes', docType: 'Document', size: '156 KB' },
-    { documentId: 'DOC003', name: 'Project Proposal Email', createdBy: 'Mike Johnson', createdDate: '2024-02-01', folderType: 'Global', folderPath: '/Projects/Alpha', docType: 'Email', size: '1.1 MB' },
-    { documentId: 'DOC004', name: 'Contract v2.pdf', createdBy: 'Sarah Wilson', createdDate: '2024-02-10', folderType: 'Global', folderPath: '/Legal/Contracts', docType: 'Document', size: '3.5 MB' },
-    { documentId: 'DOC005', name: 'Client Communication', createdBy: 'Alex Brown', createdDate: '2024-02-15', folderType: 'Home', folderPath: '/Alex/Clients', docType: 'Email', size: '892 KB' },
-    { documentId: 'DOC006', name: 'Budget Spreadsheet.xlsx', createdBy: 'John Doe', createdDate: '2024-02-20', folderType: 'Global', folderPath: '/Finance/Budgets', docType: 'Document', size: '456 KB' },
-    { documentId: 'DOC007', name: 'Training Material.pptx', createdBy: 'Jane Smith', createdDate: '2024-02-25', folderType: 'Global', folderPath: '/HR/Training', docType: 'Document', size: '8.2 MB' },
-    { documentId: 'DOC008', name: 'Customer Inquiry Email', createdBy: 'Mike Johnson', createdDate: '2024-03-01', folderType: 'Home', folderPath: '/Mike/Support', docType: 'Email', size: '245 KB' },
-    { documentId: 'DOC009', name: 'Security Policy.pdf', createdBy: 'Sarah Wilson', createdDate: '2024-03-02', folderType: 'Global', folderPath: '/IT/Policies', docType: 'Document', size: '1.8 MB' },
-    { documentId: 'DOC010', name: 'Vendor Quote Email', createdBy: 'Alex Brown', createdDate: '2024-03-03', folderType: 'Home', folderPath: '/Alex/Procurement', docType: 'Email', size: '567 KB' },
+    { documentId: 'DOC001', name: 'Annual Report 2024.pdf', createdBy: 'John Doe', createdDate: '15/01/2024', folderType: 'Global', folderPath: '/Reports/Annual', docType: 'Document', size: '2.4 MB' },
+    { documentId: 'DOC002', name: 'Meeting Notes.docx', createdBy: 'Jane Smith', createdDate: '20/01/2024', folderType: 'Home', folderPath: '/Jane/Notes', docType: 'Document', size: '156 KB' },
+    { documentId: 'DOC003', name: 'Project Proposal Email', createdBy: 'Mike Johnson', createdDate: '01/02/2024', folderType: 'Global', folderPath: '/Projects/Alpha', docType: 'Email', size: '1.1 MB' },
+    { documentId: 'DOC004', name: 'Contract v2.pdf', createdBy: 'Sarah Wilson', createdDate: '10/02/2024', folderType: 'Global', folderPath: '/Legal/Contracts', docType: 'Document', size: '3.5 MB' },
+    { documentId: 'DOC005', name: 'Client Communication', createdBy: 'Alex Brown', createdDate: '15/02/2024', folderType: 'Home', folderPath: '/Alex/Clients', docType: 'Email', size: '892 KB' },
+    { documentId: 'DOC006', name: 'Budget Spreadsheet.xlsx', createdBy: 'John Doe', createdDate: '20/02/2024', folderType: 'Global', folderPath: '/Finance/Budgets', docType: 'Document', size: '456 KB' },
+    { documentId: 'DOC007', name: 'Training Material.pptx', createdBy: 'Jane Smith', createdDate: '25/02/2024', folderType: 'Global', folderPath: '/HR/Training', docType: 'Document', size: '8.2 MB' },
+    { documentId: 'DOC008', name: 'Customer Inquiry Email', createdBy: 'Mike Johnson', createdDate: '01/03/2024', folderType: 'Home', folderPath: '/Mike/Support', docType: 'Email', size: '245 KB' },
+    { documentId: 'DOC009', name: 'Security Policy.pdf', createdBy: 'Sarah Wilson', createdDate: '02/03/2024', folderType: 'Global', folderPath: '/IT/Policies', docType: 'Document', size: '1.8 MB' },
+    { documentId: 'DOC010', name: 'Vendor Quote Email', createdBy: 'Alex Brown', createdDate: '03/03/2024', folderType: 'Home', folderPath: '/Alex/Procurement', docType: 'Email', size: '567 KB' },
   ];
 
   const [filteredData, setFilteredData] = useState(sampleData);
@@ -113,15 +113,15 @@ const DocumentsCreatedReport = () => {
       </div>
 
       {showTable && (
-        <div className="flex items-center justify-between px-6" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
-          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
+          <ViewToggle view={viewMode} onViewChange={setViewMode} />
           <div className="flex gap-4 items-center">
-            <ViewToggle view={viewMode} onViewChange={setViewMode} />
+            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
             {viewMode === 'table' && (
-              <div className="flex gap-2">
+              <>
                 <button onClick={() => setShowColumnModal(true)} className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Edit columns</button>
                 <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
-              </div>
+              </>
             )}
           </div>
         </div>
@@ -155,7 +155,7 @@ const DocumentsCreatedReport = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px]" role="table">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ borderTop: '1px solid #d1d1d1' }}>
                   {columnVisibility.documentId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Document ID</th>}
                   {columnVisibility.name && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Name</th>}
                   {columnVisibility.createdBy && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Created By</th>}

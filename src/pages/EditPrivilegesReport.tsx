@@ -55,14 +55,14 @@ const EditPrivilegesReport = () => {
   const [searchValue, setSearchValue] = useState('');
 
   const sampleData = [
-    { auditId: 'AUD001', objectName: 'Financial Report 2024', action: 'Grant', modifiedBy: 'John Doe', modifiedDate: '2024-01-15', targetUser: 'Finance Team', privilegeChanged: 'Can Edit', oldValue: 'No', newValue: 'Yes' },
-    { auditId: 'AUD002', objectName: 'HR Documents', action: 'Revoke', modifiedBy: 'Jane Smith', modifiedDate: '2024-01-20', targetUser: 'Alex Brown', privilegeChanged: 'Can Delete', oldValue: 'Yes', newValue: 'No' },
-    { auditId: 'AUD003', objectName: 'Project Alpha Files', action: 'Grant', modifiedBy: 'Mike Johnson', modifiedDate: '2024-02-01', targetUser: 'Project Managers', privilegeChanged: 'Can Admin', oldValue: 'No', newValue: 'Yes' },
-    { auditId: 'AUD004', objectName: 'Legal Contracts', action: 'Grant', modifiedBy: 'Sarah Wilson', modifiedDate: '2024-02-10', targetUser: 'Legal Department', privilegeChanged: 'Can See', oldValue: 'No', newValue: 'Yes' },
-    { auditId: 'AUD005', objectName: 'Marketing Assets', action: 'Revoke', modifiedBy: 'Alex Brown', modifiedDate: '2024-02-15', targetUser: 'Contractors', privilegeChanged: 'Can Open', oldValue: 'Yes', newValue: 'No' },
-    { auditId: 'AUD006', objectName: 'Budget Templates', action: 'Grant', modifiedBy: 'John Doe', modifiedDate: '2024-02-20', targetUser: 'Finance Team', privilegeChanged: 'Can Create', oldValue: 'No', newValue: 'Yes' },
-    { auditId: 'AUD007', objectName: 'Training Materials', action: 'Grant', modifiedBy: 'Jane Smith', modifiedDate: '2024-02-25', targetUser: 'HR Department', privilegeChanged: 'Can Edit Security', oldValue: 'No', newValue: 'Yes' },
-    { auditId: 'AUD008', objectName: 'Customer Database', action: 'Revoke', modifiedBy: 'Mike Johnson', modifiedDate: '2024-03-01', targetUser: 'Former Employee', privilegeChanged: 'Can See', oldValue: 'Yes', newValue: 'No' },
+    { auditId: 'AUD001', objectName: 'Financial Report 2024', action: 'Grant', modifiedBy: 'John Doe', modifiedDate: '15/01/2024', targetUser: 'Finance Team', privilegeChanged: 'Can Edit', oldValue: 'No', newValue: 'Yes' },
+    { auditId: 'AUD002', objectName: 'HR Documents', action: 'Revoke', modifiedBy: 'Jane Smith', modifiedDate: '20/01/2024', targetUser: 'Alex Brown', privilegeChanged: 'Can Delete', oldValue: 'Yes', newValue: 'No' },
+    { auditId: 'AUD003', objectName: 'Project Alpha Files', action: 'Grant', modifiedBy: 'Mike Johnson', modifiedDate: '01/02/2024', targetUser: 'Project Managers', privilegeChanged: 'Can Admin', oldValue: 'No', newValue: 'Yes' },
+    { auditId: 'AUD004', objectName: 'Legal Contracts', action: 'Grant', modifiedBy: 'Sarah Wilson', modifiedDate: '10/02/2024', targetUser: 'Legal Department', privilegeChanged: 'Can See', oldValue: 'No', newValue: 'Yes' },
+    { auditId: 'AUD005', objectName: 'Marketing Assets', action: 'Revoke', modifiedBy: 'Alex Brown', modifiedDate: '15/02/2024', targetUser: 'Contractors', privilegeChanged: 'Can Open', oldValue: 'Yes', newValue: 'No' },
+    { auditId: 'AUD006', objectName: 'Budget Templates', action: 'Grant', modifiedBy: 'John Doe', modifiedDate: '20/02/2024', targetUser: 'Finance Team', privilegeChanged: 'Can Create', oldValue: 'No', newValue: 'Yes' },
+    { auditId: 'AUD007', objectName: 'Training Materials', action: 'Grant', modifiedBy: 'Jane Smith', modifiedDate: '25/02/2024', targetUser: 'HR Department', privilegeChanged: 'Can Edit Security', oldValue: 'No', newValue: 'Yes' },
+    { auditId: 'AUD008', objectName: 'Customer Database', action: 'Revoke', modifiedBy: 'Mike Johnson', modifiedDate: '01/03/2024', targetUser: 'Former Employee', privilegeChanged: 'Can See', oldValue: 'Yes', newValue: 'No' },
   ];
 
   const [filteredData, setFilteredData] = useState(sampleData);
@@ -241,10 +241,10 @@ const EditPrivilegesReport = () => {
         </div>
       </div>
       {showTable && (
-        <div className="flex items-center justify-between px-6" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
-          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
-          <div className="flex gap-2 items-center">
-            <ViewToggle view={view} onViewChange={setView} />
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
+          <ViewToggle view={view} onViewChange={setView} />
+          <div className="flex gap-4 items-center">
+            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
             <button onClick={() => setShowColumnModal(true)} className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Edit columns</button>
             <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
           </div>
@@ -285,7 +285,7 @@ const EditPrivilegesReport = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px]" role="table">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ borderTop: '1px solid #d1d1d1' }}>
                   {columnVisibility.auditId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Audit ID</th>}
                   {columnVisibility.objectName && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Object Name</th>}
                   {columnVisibility.action && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Action</th>}

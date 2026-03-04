@@ -34,14 +34,14 @@ const EmailsSavedReport = () => {
   const [searchValue, setSearchValue] = useState('');
 
   const sampleData = [
-    { emailId: 'EML001', subject: 'Q4 Financial Review', savedBy: 'John Doe', savedDate: '2024-01-15', sender: 'finance@company.com', folder: 'Finance', size: '2.4 MB' },
-    { emailId: 'EML002', subject: 'Project Status Update', savedBy: 'Jane Smith', savedDate: '2024-01-20', sender: 'pm@company.com', folder: 'Projects', size: '1.1 MB' },
-    { emailId: 'EML003', subject: 'Contract Amendment', savedBy: 'Mike Johnson', savedDate: '2024-02-01', sender: 'legal@company.com', folder: 'Legal', size: '3.5 MB' },
-    { emailId: 'EML004', subject: 'HR Policy Update', savedBy: 'Sarah Wilson', savedDate: '2024-02-10', sender: 'hr@company.com', folder: 'HR', size: '856 KB' },
-    { emailId: 'EML005', subject: 'Marketing Campaign Results', savedBy: 'Alex Brown', savedDate: '2024-02-15', sender: 'marketing@company.com', folder: 'Marketing', size: '4.2 MB' },
-    { emailId: 'EML006', subject: 'Vendor Agreement', savedBy: 'John Doe', savedDate: '2024-02-20', sender: 'procurement@company.com', folder: 'Contracts', size: '1.8 MB' },
-    { emailId: 'EML007', subject: 'Training Schedule', savedBy: 'Jane Smith', savedDate: '2024-02-25', sender: 'training@company.com', folder: 'Training', size: '512 KB' },
-    { emailId: 'EML008', subject: 'Customer Feedback Summary', savedBy: 'Mike Johnson', savedDate: '2024-03-01', sender: 'support@company.com', folder: 'Support', size: '1.3 MB' },
+    { emailId: 'EML001', subject: 'Q4 Financial Review', savedBy: 'John Doe', savedDate: '15/01/2024', sender: 'finance@company.com', folder: 'Finance', size: '2.4 MB' },
+    { emailId: 'EML002', subject: 'Project Status Update', savedBy: 'Jane Smith', savedDate: '20/01/2024', sender: 'pm@company.com', folder: 'Projects', size: '1.1 MB' },
+    { emailId: 'EML003', subject: 'Contract Amendment', savedBy: 'Mike Johnson', savedDate: '01/02/2024', sender: 'legal@company.com', folder: 'Legal', size: '3.5 MB' },
+    { emailId: 'EML004', subject: 'HR Policy Update', savedBy: 'Sarah Wilson', savedDate: '10/02/2024', sender: 'hr@company.com', folder: 'HR', size: '856 KB' },
+    { emailId: 'EML005', subject: 'Marketing Campaign Results', savedBy: 'Alex Brown', savedDate: '15/02/2024', sender: 'marketing@company.com', folder: 'Marketing', size: '4.2 MB' },
+    { emailId: 'EML006', subject: 'Vendor Agreement', savedBy: 'John Doe', savedDate: '20/02/2024', sender: 'procurement@company.com', folder: 'Contracts', size: '1.8 MB' },
+    { emailId: 'EML007', subject: 'Training Schedule', savedBy: 'Jane Smith', savedDate: '25/02/2024', sender: 'training@company.com', folder: 'Training', size: '512 KB' },
+    { emailId: 'EML008', subject: 'Customer Feedback Summary', savedBy: 'Mike Johnson', savedDate: '01/03/2024', sender: 'support@company.com', folder: 'Support', size: '1.3 MB' },
   ];
 
   const [filteredData, setFilteredData] = useState(sampleData);
@@ -114,15 +114,15 @@ const EmailsSavedReport = () => {
       </div>
 
       {showTable && (
-        <div className="flex items-center justify-between px-6" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
-          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
+          <ViewToggle view={viewMode} onViewChange={setViewMode} />
           <div className="flex gap-4 items-center">
-            <ViewToggle view={viewMode} onViewChange={setViewMode} />
+            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({filteredData.length})</span>
             {viewMode === 'table' && (
-              <div className="flex gap-2">
+              <>
                 <button onClick={() => setShowColumnModal(true)} className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Edit columns</button>
                 <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
-              </div>
+              </>
             )}
           </div>
         </div>
@@ -156,7 +156,7 @@ const EmailsSavedReport = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px]" role="table">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ borderTop: '1px solid #d1d1d1' }}>
                   {columnVisibility.emailId && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Email ID</th>}
                   {columnVisibility.subject && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Subject</th>}
                   {columnVisibility.savedBy && <th className="text-left py-3 px-4" style={{ borderRight: '1px solid #EDF1F5', color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600' }}>Saved By</th>}

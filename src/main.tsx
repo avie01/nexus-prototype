@@ -12,6 +12,7 @@ import VirtualFilePartsReport from './pages/VirtualFilePartsReport.tsx'
 import PhysicalFilePartsReport from './pages/PhysicalFilePartsReport.tsx'
 import FilesCreatedReport from './pages/FilesCreatedReport.tsx'
 import EditPrivilegesReport from './pages/EditPrivilegesReport.tsx'
+import GlobalOverviewReport from './pages/GlobalOverviewReport.tsx'
 
 import AppLayout from './components/layout/AppLayout.tsx'
 import './index.css'
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/home" element={<AppLayout><HomePage /></AppLayout>} />
         <Route path="/dashboard" element={<AppLayout><DashboardHomePage /></AppLayout>} />
         <Route path="/admin" element={<AppLayout><AdminPage /></AppLayout>} />
+        <Route path="/reports/global-overview" element={<AppLayout><GlobalOverviewReport /></AppLayout>} />
         <Route path="/reports/privilege-reporting" element={<AppLayout><DashboardHomePage /></AppLayout>} />
         <Route path="/reports/searches-created" element={<AppLayout><SearchesCreatedReport /></AppLayout>} />
         <Route path="/reports/emails-saved" element={<AppLayout><EmailsSavedReport /></AppLayout>} />
