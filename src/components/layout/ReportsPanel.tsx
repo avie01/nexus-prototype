@@ -4,6 +4,13 @@ import {
   GroupSecurityIcon,
   UsersIcon,
   ClipboardListIcon,
+  Search32Icon,
+  DocumentBlank32Icon,
+  Document32Icon,
+  Events32Icon,
+  Folders32Icon,
+  FileMultipleIcon,
+  Security32Icon,
 } from '../icons';
 
 interface ReportsPanelProps {
@@ -13,6 +20,14 @@ interface ReportsPanelProps {
 const ReportsPanel: React.FC<ReportsPanelProps> = ({ width }) => {
   const reportItems = [
     { to: '/reports/privilege-reporting', label: 'Privilege reporting', icon: GroupSecurityIcon },
+    { to: '/reports/searches-created', label: 'Searches Created', icon: Search32Icon },
+    { to: '/reports/emails-saved', label: 'eMails Saved', icon: DocumentBlank32Icon },
+    { to: '/reports/documents-created', label: 'Documents Created', icon: Document32Icon },
+    { to: '/reports/new-versions-created', label: 'New Versions Created', icon: Events32Icon },
+    { to: '/reports/virtual-file-parts', label: 'Virtual File Parts', icon: Folders32Icon },
+    { to: '/reports/physical-file-parts', label: 'Physical File Parts', icon: FileMultipleIcon },
+    { to: '/reports/files-created', label: 'Files Created', icon: Folders32Icon },
+    { to: '/reports/edit-privileges', label: 'Edit Privileges', icon: Security32Icon },
     { to: '#', label: 'Users & Groups', icon: UsersIcon, onClick: (e: React.MouseEvent) => e.preventDefault() },
     { to: '#', label: 'Workflows', icon: ClipboardListIcon, onClick: (e: React.MouseEvent) => e.preventDefault() },
   ];
@@ -36,14 +51,12 @@ const ReportsPanel: React.FC<ReportsPanelProps> = ({ width }) => {
                 to={item.to}
                 onClick={item.onClick}
                 className={({ isActive }) => {
-                  const isDefaultActive = item.label === 'Privilege reporting' && !isActive;
-                  const shouldShowActive = (isActive || isDefaultActive) && item.label !== 'Users & Groups' && item.label !== 'Workflows';
+                  const shouldShowActive = isActive && item.label !== 'Users & Groups' && item.label !== 'Workflows';
                   return `${baseClasses} ${shouldShowActive ? activeClasses : inactiveClasses}`;
                 }}
               >
                 {({ isActive }) => {
-                  const isDefaultActive = item.label === 'Privilege reporting' && !isActive;
-                  const shouldShowActive = (isActive || isDefaultActive) && item.label !== 'Users & Groups' && item.label !== 'Workflows';
+                  const shouldShowActive = isActive && item.label !== 'Users & Groups' && item.label !== 'Workflows';
                   return (
                     <>
                       <Icon size={20} className={`flex-shrink-0 ${shouldShowActive ? 'text-[#0B77D8]' : ''}`} />
