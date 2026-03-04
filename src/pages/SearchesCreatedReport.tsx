@@ -69,7 +69,7 @@ const SearchesCreatedReport = () => {
     datasets: [{
       label: 'Searches Created',
       data: [2, 2, 2, 1, 1],
-      backgroundColor: ['#3560C1', '#4F86E7', '#7BA3EF', '#A8C4F5', '#D4E2FA'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27'],
       borderWidth: 0,
     }]
   };
@@ -79,8 +79,8 @@ const SearchesCreatedReport = () => {
     datasets: [{
       label: 'Total Run Count',
       data: [77, 145, 8, 0, 0, 0],
-      borderColor: '#3560C1',
-      backgroundColor: 'rgba(53, 96, 193, 0.1)',
+      borderColor: '#2679B2',
+      backgroundColor: 'rgba(38, 121, 178, 0.1)',
       fill: true,
       tension: 0.4,
     }]
@@ -90,7 +90,7 @@ const SearchesCreatedReport = () => {
     labels: ['Saved Searches', 'Quick Searches', 'Advanced Searches'],
     datasets: [{
       data: [8, 0, 0],
-      backgroundColor: ['#3560C1', '#4F86E7', '#7BA3EF'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#CAB3D5'],
       borderWidth: 0,
     }]
   };
@@ -100,7 +100,7 @@ const SearchesCreatedReport = () => {
     datasets: [{
       label: 'Run Count',
       data: sampleData.map(d => d.runCount),
-      backgroundColor: '#3560C1',
+      backgroundColor: '#2679B2',
       borderRadius: 4,
     }]
   };

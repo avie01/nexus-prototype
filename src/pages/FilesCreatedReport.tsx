@@ -90,7 +90,7 @@ const FilesCreatedReport = () => {
     datasets: [{
       label: 'Files Created',
       data: [2, 2, 2, 1, 1],
-      backgroundColor: ['#3560C1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27'],
       borderRadius: 4,
     }]
   };
@@ -100,8 +100,8 @@ const FilesCreatedReport = () => {
     datasets: [{
       label: 'Files Created',
       data: [2, 5, 1],
-      borderColor: '#3560C1',
-      backgroundColor: 'rgba(53, 96, 193, 0.1)',
+      borderColor: '#2679B2',
+      backgroundColor: 'rgba(38, 121, 178, 0.1)',
       fill: true,
       tension: 0.4,
     }]
@@ -111,7 +111,7 @@ const FilesCreatedReport = () => {
     labels: ['PDF', 'Excel', 'Word', 'PowerPoint', 'Other'],
     datasets: [{
       data: [2, 1, 1, 1, 3],
-      backgroundColor: ['#3560C1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#CAB3D5'],
       borderWidth: 0,
     }]
   };
@@ -121,7 +121,7 @@ const FilesCreatedReport = () => {
     datasets: [{
       label: 'Files by Folder',
       data: [1, 1, 1, 1, 1, 1, 1, 1],
-      backgroundColor: ['#3560C1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6', '#6366F1'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27', '#CAB3D5', '#A8CEE2', '#F1E15B'],
       borderRadius: 4,
     }]
   };

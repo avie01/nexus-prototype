@@ -104,7 +104,7 @@ const VirtualFilePartsReport = () => {
     datasets: [{
       label: 'File Parts',
       data: [2, 2, 2, 1, 1],
-      backgroundColor: ['#3560C1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27'],
       borderRadius: 4,
     }]
   };
@@ -114,8 +114,8 @@ const VirtualFilePartsReport = () => {
     datasets: [{
       label: 'Parts Created',
       data: [3, 4, 1],
-      borderColor: '#3560C1',
-      backgroundColor: 'rgba(53, 96, 193, 0.1)',
+      borderColor: '#2679B2',
+      backgroundColor: 'rgba(38, 121, 178, 0.1)',
       fill: true,
       tension: 0.4,
     }]
@@ -125,7 +125,7 @@ const VirtualFilePartsReport = () => {
     labels: ['Created', 'Closed'],
     datasets: [{
       data: [4, 4],
-      backgroundColor: ['#10B981', '#3560C1'],
+      backgroundColor: ['#B3DE8E', '#2679B2'],
       borderWidth: 0,
     }]
   };
@@ -135,7 +135,7 @@ const VirtualFilePartsReport = () => {
     datasets: [{
       label: 'Parts by Size',
       data: [2, 2, 1, 3],
-      backgroundColor: ['#3560C1', '#10B981', '#F59E0B', '#8B5CF6'],
+      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198'],
       borderRadius: 4,
     }]
   };

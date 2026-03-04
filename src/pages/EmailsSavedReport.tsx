@@ -48,22 +48,22 @@ const EmailsSavedReport = () => {
 
   const emailsByMonthData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [{ label: 'Emails Saved', data: [2, 5, 1, 0, 0, 0], borderColor: '#3560C1', backgroundColor: 'rgba(53, 96, 193, 0.1)', fill: true, tension: 0.4 }]
+    datasets: [{ label: 'Emails Saved', data: [2, 5, 1, 0, 0, 0], borderColor: '#2679B2', backgroundColor: 'rgba(38, 121, 178, 0.1)', fill: true, tension: 0.4 }]
   };
 
   const emailsByUserData = {
     labels: ['John Doe', 'Jane Smith', 'Mike Johnson', 'Sarah Wilson', 'Alex Brown'],
-    datasets: [{ label: 'Emails Saved', data: [2, 2, 2, 1, 1], backgroundColor: ['#3560C1', '#4F86E7', '#7BA3EF', '#A8C4F5', '#D4E2FA'], borderWidth: 0 }]
+    datasets: [{ label: 'Emails Saved', data: [2, 2, 2, 1, 1], backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27'], borderWidth: 0 }]
   };
 
   const emailsByFolderData = {
     labels: ['Finance', 'Projects', 'Legal', 'HR', 'Marketing', 'Other'],
-    datasets: [{ data: [1, 1, 1, 1, 1, 3], backgroundColor: ['#3560C1', '#4F86E7', '#7BA3EF', '#A8C4F5', '#D4E2FA', '#E8EFFC'], borderWidth: 0 }]
+    datasets: [{ data: [1, 1, 1, 1, 1, 3], backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27', '#CAB3D5'], borderWidth: 0 }]
   };
 
   const emailSizeData = {
     labels: sampleData.map(d => d.subject.substring(0, 12) + '...'),
-    datasets: [{ label: 'Size (MB)', data: [2.4, 1.1, 3.5, 0.8, 4.2, 1.8, 0.5, 1.3], backgroundColor: '#3560C1', borderRadius: 4 }]
+    datasets: [{ label: 'Size (MB)', data: [2.4, 1.1, 3.5, 0.8, 4.2, 1.8, 0.5, 1.3], backgroundColor: '#2679B2', borderRadius: 4 }]
   };
 
   const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' as const, labels: { font: { family: 'Noto Sans', size: 12 } } } }, scales: { y: { beginAtZero: true, grid: { color: '#EDF1F5' } }, x: { grid: { display: false } } } };

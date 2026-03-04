@@ -40,22 +40,22 @@ const DocumentsCreatedReport = () => {
 
   const docsByMonthData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [{ label: 'Documents Created', data: [2, 5, 3, 0, 0, 0], borderColor: '#3560C1', backgroundColor: 'rgba(53, 96, 193, 0.1)', fill: true, tension: 0.4 }]
+    datasets: [{ label: 'Documents Created', data: [2, 5, 3, 0, 0, 0], borderColor: '#2679B2', backgroundColor: 'rgba(38, 121, 178, 0.1)', fill: true, tension: 0.4 }]
   };
 
   const docsByTypeData = {
     labels: ['Document', 'Email'],
-    datasets: [{ data: [6, 4], backgroundColor: ['#3560C1', '#4F86E7'], borderWidth: 0 }]
+    datasets: [{ data: [6, 4], backgroundColor: ['#2679B2', '#B3DE8E'], borderWidth: 0 }]
   };
 
   const docsByFolderTypeData = {
     labels: ['Global Folder', 'Home Folder'],
-    datasets: [{ data: [6, 4], backgroundColor: ['#3560C1', '#7BA3EF'], borderWidth: 0 }]
+    datasets: [{ data: [6, 4], backgroundColor: ['#2679B2', '#FD7F23'], borderWidth: 0 }]
   };
 
   const docsByUserData = {
     labels: ['John Doe', 'Jane Smith', 'Mike Johnson', 'Sarah Wilson', 'Alex Brown'],
-    datasets: [{ label: 'Documents', data: [2, 2, 2, 2, 2], backgroundColor: '#3560C1', borderRadius: 4 }]
+    datasets: [{ label: 'Documents', data: [2, 2, 2, 2, 2], backgroundColor: '#2679B2', borderRadius: 4 }]
   };
 
   const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' as const } }, scales: { y: { beginAtZero: true, grid: { color: '#EDF1F5' } }, x: { grid: { display: false } } } };
