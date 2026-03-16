@@ -1,38 +1,11 @@
 import { useState } from 'react';
 import { ChartBarIcon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
-import ViewToggle from '../components/ui/ViewToggle';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Bar, Line, Doughnut } from 'react-chartjs-2';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const GlobalOverviewReport = () => {
   const [showTable, setShowTable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [yearValue, setYearValue] = useState('');
-  const [viewMode, setViewMode] = useState<'table' | 'charts'>('table');
 
   const yearOptions = [
     { value: '2024', label: '2024' },
@@ -93,98 +66,6 @@ const GlobalOverviewReport = () => {
 
   const formatNumber = (num: number) => num.toLocaleString();
 
-  // Chart data - Monthly trend for key metrics
-  const monthlyTrendData = {
-    labels: monthlyData.map(d => d.month),
-    datasets: [
-      {
-        label: 'Documents Created',
-        data: monthlyData.map(d => d.docsIncEmail),
-        borderColor: '#2679B2',
-        backgroundColor: 'rgba(38, 121, 178, 0.1)',
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: 'eMails Saved',
-        data: monthlyData.map(d => d.emailsSaved),
-        borderColor: '#B3DE8E',
-        backgroundColor: 'rgba(179, 222, 142, 0.1)',
-        fill: true,
-        tension: 0.4,
-      }
-    ]
-  };
-
-  const documentLocationData = {
-    labels: ['Global Folder', 'Home Folders'],
-    datasets: [{
-      data: [yearTotals.docsGlobalFolder, yearTotals.docsHomeFolders],
-      backgroundColor: ['#2679B2', '#B3DE8E'],
-      borderWidth: 0,
-    }]
-  };
-
-  const filePartsData = {
-    labels: monthlyData.map(d => d.month),
-    datasets: [
-      {
-        label: 'Virtual Parts Created',
-        data: monthlyData.map(d => d.virtualCreated),
-        backgroundColor: '#2679B2',
-        borderRadius: 4,
-      },
-      {
-        label: 'Virtual Parts Closed',
-        data: monthlyData.map(d => d.virtualClosed),
-        backgroundColor: '#FD7F23',
-        borderRadius: 4,
-      }
-    ]
-  };
-
-  const metricsSummaryData = {
-    labels: ['Searches', 'eMails (K)', 'Docs Inc. (K)', 'Docs Exc. (K)', 'New Versions (K)'],
-    datasets: [{
-      label: '2024 Totals',
-      data: [
-        yearTotals.searchesCreated,
-        Math.round(yearTotals.emailsSaved / 1000),
-        Math.round(yearTotals.docsIncEmail / 1000),
-        Math.round(yearTotals.docsExcEmail / 1000),
-        Math.round(yearTotals.newVersions / 1000)
-      ],
-      backgroundColor: ['#2679B2', '#B3DE8E', '#FD7F23', '#6A4198', '#E11F27'],
-      borderWidth: 0,
-    }]
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-        labels: { font: { family: 'Noto Sans', size: 12 } }
-      }
-    },
-    scales: {
-      y: { beginAtZero: true, grid: { color: '#EDF1F5' } },
-      x: { grid: { display: false } }
-    }
-  };
-
-  const doughnutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-        labels: { font: { family: 'Noto Sans', size: 12 } }
-      }
-    }
-  };
-
   const SkeletonCell = ({ width = '100%' }: { width?: string }) => (
     <div className="skeleton-animate h-4 rounded" style={{ width }} />
   );
@@ -244,49 +125,13 @@ const GlobalOverviewReport = () => {
       </div>
 
       {showTable && (
-        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#ffffff', height: '56px' }}>
-          <ViewToggle view={viewMode} onViewChange={setViewMode} />
-          <div className="flex gap-4 items-center">
-            <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({monthlyData.length} months)</span>
-            {viewMode === 'table' && (
-              <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
-            )}
-          </div>
+        <div className="flex items-center justify-between px-4" style={{ backgroundColor: '#f5f5f5', height: '56px' }}>
+          <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px' }}>Results ({monthlyData.length} months)</span>
+          <button className="hover:bg-gray-50" style={{ display: 'inline-flex', height: '32px', padding: '6px 12px', alignItems: 'center', borderRadius: '2px', border: '1px solid #D1D1D1', background: '#FFF', color: '#525965', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>Export results</button>
         </div>
       )}
 
-      {showTable && viewMode === 'charts' && (
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '0px 0px 16px 16px', padding: '24px' }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-base font-semibold text-gray-800 mb-4">Documents & eMails Trend (Monthly)</h3>
-              <div style={{ height: '280px' }}>
-                <Line data={monthlyTrendData} options={chartOptions} />
-              </div>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-base font-semibold text-gray-800 mb-4">Document Location Distribution</h3>
-              <div style={{ height: '280px' }}>
-                <Doughnut data={documentLocationData} options={doughnutOptions} />
-              </div>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-base font-semibold text-gray-800 mb-4">Virtual File Parts (Monthly)</h3>
-              <div style={{ height: '280px' }}>
-                <Bar data={filePartsData} options={chartOptions} />
-              </div>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-base font-semibold text-gray-800 mb-4">2024 Metrics Summary</h3>
-              <div style={{ height: '280px' }}>
-                <Bar data={metricsSummaryData} options={chartOptions} />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showTable && viewMode === 'table' && (
+      {showTable && (
         <div style={{ backgroundColor: '#ffffff', borderRadius: '0px 0px 16px 16px' }}>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1200px]" role="table">
