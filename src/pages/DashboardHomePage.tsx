@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon, Home32Icon, ChevronDownIcon } from '../components/icons';
+import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
 import { Badge } from '../components/ui/Badge';
 
