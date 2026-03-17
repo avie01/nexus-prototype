@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, DocumentBlank32Icon, Folders32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon, Home32Icon, ChevronDownIcon } from '../components/icons';
+import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon, Home32Icon, ChevronDownIcon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
 import { Badge } from '../components/ui/Badge';
 
@@ -34,7 +34,6 @@ const DashboardHomePage = () => {
   // Form state
   const [typeValues, setTypeValues] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState('');
-  const [objectTypesValue, setObjectTypesValue] = useState('');
   const [usersGroupsValue, setUsersGroupsValue] = useState('');
   const [classificationValues, setClassificationValues] = useState<string[]>([]);
   const [containerValue, setContainerValue] = useState<{ name: string; id: string } | null>({ name: 'Andrew Miralles', id: 'fA529522' });
@@ -811,7 +810,7 @@ const DashboardHomePage = () => {
               }}
             >
               <div className="flex items-center px-3 gap-2">
-                <FolderIcon size={18} style={{ color: '#F5A623' }} />
+                <FolderIcon size={18} />
                 <select
                   value={typeValues[0] || 'parent'}
                   onChange={(e) => setTypeValues([e.target.value])}
