@@ -742,8 +742,8 @@ const DashboardHomePage = () => {
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">Last privilege update: 14/12/2017 4:56 PM</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          <div>
+        <div className="flex flex-wrap lg:flex-nowrap gap-4 mt-4 items-end">
+          <div className="w-full sm:w-auto sm:flex-1">
             <CarbonDropdown
               id="objectTypes"
               label="Object types"
@@ -759,136 +759,98 @@ const DashboardHomePage = () => {
               onChange={setObjectTypesValue}
             />
           </div>
-          <div>
-            <CarbonDropdown
-              id="type"
-              label="Privilege Container"
-              placeholder="Hierarchy depth..."
-              options={[
-                { value: 'parent', label: 'Parent', icon: FolderIcon },
-                { value: 'ancestor', label: 'Ancestor', icon: FolderIcon }
-              ]}
-              multiple={true}
-              values={typeValues}
-              onMultiChange={setTypeValues}
-            />
-          </div>
-          <div>
+          <div className="w-full sm:w-auto sm:flex-[2]">
             <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Search</label>
-            <div className="flex gap-4">
+            <div
+              className="flex items-center"
+              style={{
+                background: '#F5F5F5',
+                borderBottom: '1px solid #ACACAC',
+                height: '44px'
+              }}
+            >
+              <div className="flex items-center px-3 gap-2">
+                <FolderIcon size={18} style={{ color: '#F5A623' }} />
+                <select
+                  value={typeValues[0] || 'parent'}
+                  onChange={(e) => setTypeValues([e.target.value])}
+                  className="bg-transparent border-none outline-none cursor-pointer"
+                  style={{
+                    color: '#32373F',
+                    fontFamily: 'Noto Sans',
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    appearance: 'none',
+                    paddingRight: '16px',
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23707070'%3e%3cpath d='M4 6l4 4 4-4'/%3e%3c/svg%3e")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right center',
+                    backgroundSize: '16px'
+                  }}
+                >
+                  <option value="parent">Parent</option>
+                  <option value="ancestor">Ancestor</option>
+                </select>
+              </div>
+              <div style={{ width: '1px', height: '24px', background: '#ACACAC' }} />
               <input
                 type="text"
                 id="search"
-                placeholder="Search..."
+                placeholder="Search by name"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="flex-1 px-3 focus:outline-none hover:bg-[#E8E8E8] hover:border-[#3560C1] active:bg-[#E8E8E8] active:border-[#3560C1] transition-all"
+                className="flex-1 px-3 bg-transparent border-none outline-none"
                 style={{
-                  border: '1px solid transparent',
-                  borderBottom: '1px solid #ACACAC',
-                  background: '#F5F5F5',
-                  height: '44px',
-                  borderRadius: '0px',
                   color: '#32373F',
                   fontFamily: 'Noto Sans',
                   fontSize: '14px',
-                  fontStyle: 'normal',
+                  fontStyle: 'italic',
                   fontWeight: '400',
-                  lineHeight: '24px',
-                  outline: 'none'
-                }}
-                onFocus={(e) => {
-                  e.target.style.border = '1px solid transparent';
-                  e.target.style.borderBottom = '1px solid transparent';
-                  e.target.style.boxShadow = 'inset 0 0 0 2px #3560C1';
-                  e.target.style.background = '#E8E8E8';
-                }}
-                onBlur={(e) => {
-                  e.target.style.border = '1px solid transparent';
-                  e.target.style.borderBottom = '1px solid #ACACAC';
-                  e.target.style.boxShadow = 'none';
-                  e.target.style.background = '#F5F5F5';
-                }}
-                onMouseEnter={(e) => {
-                  const input = e.currentTarget;
-                  if (input !== document.activeElement) {
-                    input.style.border = '1px solid transparent';
-                    input.style.borderBottom = '1px solid #3560C1';
-                    input.style.background = '#E8E8E8';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const input = e.currentTarget;
-                  if (input !== document.activeElement) {
-                    input.style.border = '1px solid transparent';
-                    input.style.borderBottom = '1px solid #ACACAC';
-                    input.style.background = '#F5F5F5';
-                  }
+                  lineHeight: '24px'
                 }}
               />
               <button
-                onClick={() => {
-                  setIsLoading(true);
-                  setShowTable(true);
-                  // Simulate loading delay
-                  setTimeout(() => {
-                    setIsLoading(false);
-                  }, 1500);
-                }}
-                className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label="Search privilege reporting data"
+                className="px-3 h-full flex items-center justify-center hover:bg-[#E8E8E8] transition-colors"
+                aria-label="Search icon"
                 style={{
-                  display: 'flex',
-                  height: '44px',
-                  padding: '10px 14px',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: '6px',
-                  borderRadius: '0px',
-                  background: '#3560C1',
+                  background: 'transparent',
                   border: 'none',
                   cursor: 'pointer'
                 }}
               >
-                Search
+                <Search32Icon size={20} style={{ color: '#707070' }} />
               </button>
             </div>
           </div>
+          <div className="flex-shrink-0">
+            <button
+              onClick={() => {
+                setIsLoading(true);
+                setShowTable(true);
+                setTimeout(() => {
+                  setIsLoading(false);
+                }, 1500);
+              }}
+              className="text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Search privilege reporting data"
+              style={{
+                display: 'flex',
+                height: '44px',
+                padding: '10px 14px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '6px',
+                borderRadius: '0px',
+                background: '#3560C1',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Search
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          <div>
-            <CarbonDropdown
-              id="usersGroups"
-              label="Users/groups"
-              placeholder="Select user/group..."
-              groups={[
-                {
-                  label: 'Users',
-                  icon: User32Icon,
-                  options: [
-                    { value: 'john.doe', label: 'John Doe', secondaryText: 'ID: uA321' },
-                    { value: 'jane.smith', label: 'Jane Smith', secondaryText: 'ID: uB457' },
-                    { value: 'mike.johnson', label: 'Mike Johnson', secondaryText: 'ID: uC892' },
-                    { value: 'sarah.wilson', label: 'Sarah Wilson', secondaryText: 'ID: uD234' },
-                    { value: 'alex.brown', label: 'Alex Brown', secondaryText: 'ID: uE567' }
-                  ]
-                },
-                {
-                  label: 'Groups',
-                  icon: Events32Icon,
-                  options: [
-                    { value: 'administrators', label: 'Administrators', secondaryText: 'ID: gA123' },
-                    { value: 'finance-team', label: 'Finance Team', secondaryText: 'ID: gB789' },
-                    { value: 'hr-department', label: 'HR Department', secondaryText: 'ID: gC456' },
-                    { value: 'project-managers', label: 'Project Managers', secondaryText: 'ID: gD012' },
-                    { value: 'security-team', label: 'Security Team', secondaryText: 'ID: gE345' }
-                  ]
-                }
-              ]}
-              value={usersGroupsValue}
-              onChange={setUsersGroupsValue}
-            />
-          </div>
           <div>
             <CarbonDropdown
               id="privilege"
@@ -927,13 +889,42 @@ const DashboardHomePage = () => {
           </div>
           <div>
             <CarbonDropdown
+              id="usersGroups"
+              label="Users/groups"
+              placeholder="Select user/group..."
+              groups={[
+                {
+                  label: 'Users',
+                  icon: User32Icon,
+                  options: [
+                    { value: 'john.doe', label: 'John Doe', secondaryText: 'ID: uA321' },
+                    { value: 'jane.smith', label: 'Jane Smith', secondaryText: 'ID: uB457' },
+                    { value: 'mike.johnson', label: 'Mike Johnson', secondaryText: 'ID: uC892' },
+                    { value: 'sarah.wilson', label: 'Sarah Wilson', secondaryText: 'ID: uD234' },
+                    { value: 'alex.brown', label: 'Alex Brown', secondaryText: 'ID: uE567' }
+                  ]
+                },
+                {
+                  label: 'Groups',
+                  icon: Events32Icon,
+                  options: [
+                    { value: 'administrators', label: 'Administrators', secondaryText: 'ID: gA123' },
+                    { value: 'finance-team', label: 'Finance Team', secondaryText: 'ID: gB789' },
+                    { value: 'hr-department', label: 'HR Department', secondaryText: 'ID: gC456' },
+                    { value: 'project-managers', label: 'Project Managers', secondaryText: 'ID: gD012' },
+                    { value: 'security-team', label: 'Security Team', secondaryText: 'ID: gE345' }
+                  ]
+                }
+              ]}
+              value={usersGroupsValue}
+              onChange={setUsersGroupsValue}
+            />
+          </div>
+          <div>
+            <CarbonDropdown
               id="classification"
               label="Classification"
               placeholder="Select classification..."
-              tabs={[
-                { id: 'direct', label: 'Direct' },
-                { id: 'inherited', label: 'Inherited' }
-              ]}
               options={[
                 { value: 'unofficial', label: 'Unofficial' },
                 { value: 'official', label: 'Official' },
