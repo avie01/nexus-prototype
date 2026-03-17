@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, DocumentBlank32Icon, Folders32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon } from '../components/icons';
+import { GroupSecurityIcon, User32Icon, Events32Icon, Search32Icon, DocumentBlank32Icon, Folders32Icon, FolderIcon, Close32Icon, Information32Icon, TextSelection32Icon, Security32Icon, TrashCan32Icon, Home32Icon, ChevronDownIcon } from '../components/icons';
 import CarbonDropdown from '../components/ui/CarbonDropdown';
 import { Badge } from '../components/ui/Badge';
 
@@ -37,6 +37,7 @@ const DashboardHomePage = () => {
   const [objectTypesValue, setObjectTypesValue] = useState('');
   const [usersGroupsValue, setUsersGroupsValue] = useState('');
   const [classificationValues, setClassificationValues] = useState<string[]>([]);
+  const [containerValue, setContainerValue] = useState<{ name: string; id: string } | null>({ name: 'Andrew Miralles', id: 'fA529522' });
 
 
   const sampleData = [
@@ -744,20 +745,60 @@ const DashboardHomePage = () => {
         </div>
         <div className="flex flex-wrap lg:flex-nowrap gap-4 mt-4 items-end">
           <div className="w-full sm:w-auto sm:flex-1">
-            <CarbonDropdown
-              id="objectTypes"
-              label="Object types"
-              placeholder="Select object type..."
-              options={[
-                { value: 'all-objects', label: 'All objects', icon: Search32Icon },
-                { value: 'documents', label: 'Documents', icon: DocumentBlank32Icon },
-                { value: 'files', label: 'Files', icon: Folders32Icon },
-                { value: 'file-or-folders', label: 'File or Folders', icon: FolderIcon },
-                { value: 'folders', label: 'Folders', icon: FolderIcon }
-              ]}
-              value={objectTypesValue}
-              onChange={setObjectTypesValue}
-            />
+            <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>
+              Container <span style={{ color: '#E11F27' }}>*</span>
+            </label>
+            <div
+              className="flex items-center"
+              style={{
+                background: '#F5F5F5',
+                borderBottom: '1px solid #ACACAC',
+                height: '44px'
+              }}
+            >
+              <div className="flex items-center px-3 gap-2 flex-1">
+                <Home32Icon size={18} style={{ color: '#707070' }} />
+                {containerValue ? (
+                  <>
+                    <span style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '400' }}>
+                      {containerValue.name}
+                    </span>
+                    <span style={{ color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '400' }}>
+                      {containerValue.id}
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ color: '#707070', fontFamily: 'Noto Sans', fontSize: '14px', fontStyle: 'italic' }}>
+                    Select container...
+                  </span>
+                )}
+              </div>
+              {containerValue && (
+                <button
+                  onClick={() => setContainerValue(null)}
+                  className="px-2 flex items-center justify-center hover:bg-[#E8E8E8] transition-colors"
+                  aria-label="Clear container"
+                  style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+                >
+                  <Close32Icon size={16} style={{ color: '#707070' }} />
+                </button>
+              )}
+              <button
+                className="px-2 flex items-center justify-center hover:bg-[#E8E8E8] transition-colors"
+                aria-label="Open container dropdown"
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+              >
+                <ChevronDownIcon size={16} style={{ color: '#707070' }} />
+              </button>
+              <div style={{ width: '1px', height: '24px', background: '#ACACAC' }} />
+              <button
+                className="px-3 flex items-center justify-center hover:bg-[#E8E8E8] transition-colors"
+                aria-label="Search containers"
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+              >
+                <Search32Icon size={18} style={{ color: '#707070' }} />
+              </button>
+            </div>
           </div>
           <div className="w-full sm:w-auto sm:flex-[2]">
             <label className="block mb-1" style={{ color: '#32373F', fontFamily: 'Noto Sans', fontSize: '14px', fontWeight: '600', lineHeight: '21px' }}>Search</label>
